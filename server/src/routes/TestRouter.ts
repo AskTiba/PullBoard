@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { testDatabase } from "../controllers/TestController.js";
+import { testDatabase } from "../controllers/TestController";
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import express from "express";
-import { PORT } from "./config/env.js";
-import router from "./routes/TestRouter.js";
+import { PORT } from "./config/env";
+import router from "./routes/TestRouter";
 
 // testing server 
 const app = express();

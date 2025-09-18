@@ -1,4 +1,4 @@
-import { getExamples } from "../repositories/TestRepository.js";
+import { getExamples } from "../repositories/TestRepository";
 
 export const fetchExample = async () => {
     const example = await getExamples();

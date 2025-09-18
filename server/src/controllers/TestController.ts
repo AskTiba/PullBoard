@@ -1,4 +1,4 @@
-import { fetchExample } from "../services/TestService.js"
+import { fetchExample } from "../services/TestService"
 
 export const testDatabase = async (req, res) => {
     try {

@@ -11,7 +11,7 @@ import {
     AUTH_PROVIDER_X509_CERT_URL,
     CLIENT_X509_CERT_URL,
     UNIVERSE_DOMAIN
-} from './env.js';
+} from './env';
 
 const serviceAccount = {
     "type": TYPE,
