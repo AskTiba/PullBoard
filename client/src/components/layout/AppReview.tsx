@@ -13,6 +13,9 @@ export default function AppReview() {
         <Link to="/closed-prs" className=" bg-blue-700 px-4 py-2 rounded">
           <span className="text-white">Closed PRs</span>
         </Link>
+        <Link to="/dashboard" className=" bg-blue-700 px-4 py-2 rounded">
+          <span className="text-white">Dashboard</span>
+        </Link>
       </div>
     </main>
   );

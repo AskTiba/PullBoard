@@ -1,6 +1,6 @@
 import React from "react";
 import { PBLogo } from "../brand";
-import { Docs, Github } from "../icons";
+import { Docs, Github, Shield } from "../icons";
 import { Copyright } from "../ui";
 import DateDisplay from "../ui/DateDisplay";
 
@@ -30,16 +30,18 @@ const Footer: React.FC = () => {
           </section>
 
           <section>
-            <h3 className="font-bold text-lg mb-">Resources</h3>
-            <ul className="text-sm text-gray-300">
+            <h3 className="font-bold text-lg mb-3">Resources</h3>
+            <ul className="text-sm text-gray-300 flex flex-col gap-2">
               <li className="flex items-center justify-center md:justify-start">
-                <Github fill="#fff" width={20} />
-                <a href="#" className="ml-2 hover:underline">
+                <span className="bg-white size-5 rounded-full flex items-center justify-center">
+                  <Github />
+                </span>
+                <a href="#" className="ml-3 hover:underline">
                   View on GitHub
                 </a>
               </li>
               <li className="flex items-center justify-center md:justify-start">
-                <Docs width={20} fill="#fff" />
+                <Docs width={24} fill="#fff" />
                 <a href="#" className="ml-2 hover:underline">
                   Documentation
                 </a>
