@@ -1,4 +1,4 @@
-import { PBLogo } from "../brand";
+import { PBIcon, PBLogo } from "../brand";
 import DateDisplay from "../ui/DateDisplay";
 import HamburgerComponent from "./Hamburger";
 import { Link } from "react-router-dom";
@@ -39,10 +39,11 @@ const Navbar = () => {
         </div>
 
         <div className="md:flex hidden items-center gap-2">
-          <DateDisplay
-            format="Month Do, YYYY"
-            className="text-gray-400"
-          />
+          <DateDisplay format="Month Do, YYYY" className="text-gray-400" />
+          
+          <Link to="/auth" className="">
+            <PBIcon />
+          </Link>
         </div>
       </div>
     </div>

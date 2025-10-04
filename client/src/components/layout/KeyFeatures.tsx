@@ -12,15 +12,15 @@ export default function KeyFeatures() {
     },
     {
       icon: <Timer />,
-      title: "SLA & Deadline Tracking",
+      title: "Historical data",
       description:
-        "Ensure pull requests are reviewed on time by setting and tracking Service Level Agreement (SLA) deadlines.",
+        "Access comprehensive records of all closed and merged of all closed and merged pull requests for project insights.",
     },
     {
       icon: <Filter />,
-      title: "Customizable Filters",
+      title: "Advanced filtering",
       description:
-        "Create and save custom filters to quickly find the pull requests that need your attention.",
+        "Filter results by team members, dates and other criteria to find exactly what you need.",
     },
   ];
 
