@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function AppReview() {
   return (
-    <main>
+    <main className="py-40">
       <h2 className="text-center text-2xl font-bold text-gray-800 mb-12">
         Application Preview
       </h2>
@@ -16,7 +16,6 @@ export default function AppReview() {
         <Link to="/dashboard" className=" bg-blue-700 px-4 py-2 rounded">
           <span className="text-white">Dashboard</span>
         </Link>
-
         
       </div>
     </main>
