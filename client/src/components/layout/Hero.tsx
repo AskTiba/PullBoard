@@ -1,7 +1,7 @@
 
 const Hero = () => {
   return (
-    <section className="h-[80vh] relative">
+    <section className="h-[76vh] relative overflow-hidden">
       <div className="sm:px-10 px-6">
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center md:pt-36 pt-24">
           {/* Headline */}
