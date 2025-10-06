@@ -1,56 +1,55 @@
-import { Shield, Team } from "../icons";
-import { Chart, Clock } from "../ui";
-
 export default function WhyChoose() {
-  const reasons = [
+  const CardData = [
     {
-      icon: <Clock width={28} fill="#fff" />,
-      title: "Save Time",
-      description:
-        "Quickly identify PRs that need attention and streamline your preview process.",
+      title: "SAVE TIME",
+      desc: "Quickly identify PRs that need your attention and streamline your review process.",
     },
     {
-      icon: <Team width={28} fill="#fff" />,
-      title: "Team Collaboration",
-      description:
-        "Foster seamless teamwork with integrated tools for discussions, feedback, and approvals.",
+      title: "TEAM COLLABRATION",
+      desc: "Keep everyone informed about the status of pull requests and assignment.",
     },
     {
-      icon: <Chart width={28} fill="#fff" />,
-      title: "Project Insights",
-      description:
-        "Gain valuable insights into your project's progress and team performance with intuitive dashboards.",
+      title: "PROJECT INSIGHTS",
+      desc: "Analyze historical data to improve your development workflow and process.",
     },
     {
-      icon: <Shield width={28} />,
-      title: "Secure and Reliable",
-      description:
-        "Ensure your codebase remains secure with robust checks and a reliable, stable platform.",
+      title: "SECURE AND RELIABLE",
+      desc: "Built with security in mind and designed to handle your team's workflow and realiably.",
     },
   ];
 
   return (
-    <main className="py-20 px-6 bg-gray-custom">
-      <div className="max-w-screen-lg mx-auto">
-        <h2 className="text-center text-2xl font-bold text-gray-800 mb-3">
-          Why Choose PullBoard
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {reasons.map((reason, index) => (
-            <section key={index} className="p-6 text-left">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="bg-black p-2 w-fit rounded-lg">
-                  {reason.icon}
+    <div className="bg-gray-custom md:py-14 py-14 px-4">
+      <div className="max-w-6xl mx-auto flex md:flex-row flex-col justify-between text-gray-800 items-center font-semibold">
+        <div className="lg:w-[55%] md:w-[50%] p-6">
+          <h3 className="text-2xl font-semibold text-gray-900 py-10">
+            Why choose PullBoard?
+          </h3>
+          <div className="flex flex-col gap-10">
+            {CardData.map((card, index) => (
+              <div key={index}>
+                <div className="outline-1 mb-4 w-fit p-2 rounded-full">
+                  {card.title}
                 </div>
-                <h3 className="font-bold text-xl text-gray-900 ">
-                  {reason.title}
-                </h3>
+
+                <span>
+                  Quickly identify PRs that need your attention and streamline
+                  your review process.
+                </span>
               </div>
-              <p className="text-gray-700">{reason.description}</p>
-            </section>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        {/* Image */}
+        <div className="lg:h-[70vh] h-[64vh] md:block hidden mt-10">
+          <img
+            src="/PR.png"
+            alt=""
+            className="w-full h-full grayscale brightness-75"
+          />
         </div>
       </div>
-    </main>
+    </div>
   );
 }
