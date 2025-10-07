@@ -14,10 +14,13 @@ import {
   formatReviewStatsResponse
 } from "../utils/reviewFormatter";
 import { ReviewState } from "../types/formatted.types";
+import { Octokit } from "octokit";
 
 
 export async function getPRReviews(req: Request, res: Response) {
   try {
+    const { githubAccessToken } = req.body.user;
+    const octokit = new Octokit({ auth: githubAccessToken });
     const { username, repo, pullNumber } = req.params;
     const {
       state = 'all',
@@ -42,8 +45,8 @@ export async function getPRReviews(req: Request, res: Response) {
     const options = { perPage, page: pageNum };
 
     const [reviews, rateLimit] = await Promise.all([
-      getPullRequestReviews(username, repo, pullNum, options),
-      getGitHubRateLimit()
+      getPullRequestReviews(octokit, username, repo, pullNum, options),
+      getGitHubRateLimit(octokit)
     ]);
 
     const filteredReviews = reviewState !== 'all'
@@ -82,6 +85,8 @@ export async function getPRReviews(req: Request, res: Response) {
 
 export async function getUserRepoReviews(req: Request, res: Response) {
   try {
+    const { githubAccessToken } = req.body.user;
+    const octokit = new Octokit({ auth: githubAccessToken });
     const { username, repo } = req.params;
     const {
       state = 'all',
@@ -98,8 +103,8 @@ export async function getUserRepoReviews(req: Request, res: Response) {
     const options = { perPage, page: pageNum };
 
     const [reviewsWithErrors, rateLimit] = await Promise.all([
-      getRepoReviews(username, repo, reviewState, options),
-      getGitHubRateLimit()
+      getRepoReviews(octokit, username, repo, reviewState, options),
+      getGitHubRateLimit(octokit)
     ]);
 
     const repoWithReviewsAndErrors = {
@@ -138,6 +143,8 @@ export async function getUserRepoReviews(req: Request, res: Response) {
 
 export async function getUserReviews(req: Request, res: Response) {
   try {
+    const { githubAccessToken } = req.body.user;
+    const octokit = new Octokit({ auth: githubAccessToken });
     const { username } = req.params;
     const {
       state = 'all',
@@ -154,8 +161,8 @@ export async function getUserReviews(req: Request, res: Response) {
     const options = { perPage, page: pageNum };
 
     const [reposWithReviewsAndErrors, rateLimit] = await Promise.all([
-      getAllReviewsForUser(username, reviewState, options),
-      getGitHubRateLimit()
+      getAllReviewsForUser(octokit, username, reviewState, options),
+      getGitHubRateLimit(octokit)
     ]);
 
     const response = formatUserReviewResponse({
@@ -188,6 +195,8 @@ export async function getUserReviews(req: Request, res: Response) {
 
 export async function getReviewsByReviewer(req: Request, res: Response) {
   try {
+    const { githubAccessToken } = req.body.user;
+    const octokit = new Octokit({ auth: githubAccessToken });
     const { reviewer } = req.params;
     const {
       state = 'all',
@@ -204,8 +213,8 @@ export async function getReviewsByReviewer(req: Request, res: Response) {
     const options = { perPage, page: pageNum };
 
     const [reviewsWithErrors, rateLimit] = await Promise.all([
-      getReviewsByUser(reviewer, reviewState, options),
-      getGitHubRateLimit()
+      getReviewsByUser(octokit, reviewer, reviewState, options),
+      getGitHubRateLimit(octokit)
     ]);
 
     res.status(200).json({
@@ -249,6 +258,8 @@ export async function getReviewsByReviewer(req: Request, res: Response) {
 
 export async function getReviewStats(req: Request, res: Response) {
   try {
+    const { githubAccessToken } = req.body.user;
+    const octokit = new Octokit({ auth: githubAccessToken });
     const { username } = req.params;
     const { repo } = req.query;
 
@@ -257,16 +268,16 @@ export async function getReviewStats(req: Request, res: Response) {
     let totalFailureCount = 0;
     let allFailedOperations: any[] = [];
 
-    const rateLimit = await getGitHubRateLimit();
+    const rateLimit = await getGitHubRateLimit(octokit);
 
     if (repo) {
-      const reviewsWithErrors = await getRepoReviews(username, repo as string, 'all');
+      const reviewsWithErrors = await getRepoReviews(octokit, username, repo as string, 'all');
       allReviews = reviewsWithErrors.reviews;
       totalSuccessCount = reviewsWithErrors.success_count;
       totalFailureCount = reviewsWithErrors.failure_count;
       allFailedOperations = reviewsWithErrors.failed_operations;
     } else {
-      const repoReviews = await getAllReviewsForUser(username, 'all');
+      const repoReviews = await getAllReviewsForUser(octokit, username, 'all');
       allReviews = repoReviews.flatMap(r => r.reviews);
       totalSuccessCount = repoReviews.reduce((sum, repo) => sum + repo.success_count, 0);
       totalFailureCount = repoReviews.reduce((sum, repo) => sum + repo.failure_count, 0);

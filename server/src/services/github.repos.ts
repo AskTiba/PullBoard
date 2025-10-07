@@ -3,10 +3,8 @@ import { parseLinkHeader } from "../utils/pagination";
 import { RepositoryDTO } from "../dtos/RepositoryDTO";
 import { PullRequestDTO } from "../dtos/PullRequestDTO";
 
-const octokit = new Octokit();
-
 // Get public repositories of a user
-export async function fetchRepositoriesOfUser(username: string, page = 1, perPage = 30) {
+export async function fetchRepositoriesOfUser(octokit: Octokit, username: string, page = 1, perPage = 30) {
     try {
         const response = await octokit.request('GET /users/{username}/repos', {
             username: username,
@@ -26,6 +24,7 @@ export async function fetchRepositoriesOfUser(username: string, page = 1, perPag
         return {
             data: response.data.map((repo: any) => RepositoryDTO.fromGitHubAPIToModel(repo)),
             pagination: await buildPagination(
+                octokit,
                 response.headers.link,
                 page,
                 perPage,
@@ -44,6 +43,7 @@ export async function fetchRepositoriesOfUser(username: string, page = 1, perPag
 // Get PRs of a public repo
 
 export async function fetchPullRequestsOfRepo(
+    octokit: Octokit,
     owner: string,
     repo: string,
     state: string,
@@ -68,7 +68,7 @@ export async function fetchPullRequestsOfRepo(
 
         const prs = []
         for (const pr of response.data) {
-            const lastReview = await fetchLastReviewOfPullRequest(owner, repo, pr.number);
+            const lastReview = await fetchLastReviewOfPullRequest(octokit, owner, repo, pr.number);
             pr.last_review = lastReview;
             prs.push(PullRequestDTO.fromGitHubAPIToModel(pr));
         }
@@ -76,6 +76,7 @@ export async function fetchPullRequestsOfRepo(
         return {
             data: prs,
             pagination: await buildPagination(
+                octokit,
                 response.headers.link,
                 page,
                 perPage,
@@ -92,7 +93,7 @@ export async function fetchPullRequestsOfRepo(
     }
 }
 
-export async function fetchLastReviewOfPullRequest(owner: string, repo: string, pullNumber: number) {
+export async function fetchLastReviewOfPullRequest(octokit: Octokit, owner: string, repo: string, pullNumber: number) {
     try {
         const response = await octokit.request('GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews', {
             owner: owner,
@@ -122,6 +123,7 @@ export async function fetchLastReviewOfPullRequest(owner: string, repo: string, 
 }
 
 async function buildPagination(
+    octokit: Octokit,
     link: string,
     page: number,
     perPage: number,

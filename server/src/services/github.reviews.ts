@@ -8,10 +8,6 @@ import {
 } from "../types/github.types";
 import { FormattedReview, ReviewState, FailedOperation, ReviewsWithErrors, RepoWithReviewsAndErrors } from "../types/formatted.types";
 
-const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN,
-});
-
 const MAX_REPOSITORIES_TO_PROCESS = 200;
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 function isRateLimitError(error: any): boolean {
@@ -23,6 +19,7 @@ function isRateLimitError(error: any): boolean {
 }
 
 async function getPullRequestReviews(
+  octokit: Octokit,
   owner: string,
   repo: string,
   pullNumber: number,
@@ -79,6 +76,7 @@ async function getPullRequestReviews(
 }
 
 async function getRepoReviews(
+  octokit: Octokit,
   owner: string,
   repo: string,
   state: ReviewState = "all",
@@ -129,7 +127,7 @@ async function getRepoReviews(
 
       const batchPromises = batch.map(async (pr: any) => {
         try {
-          const reviews = await getPullRequestReviews(owner, repo, pr.number, options);
+          const reviews = await getPullRequestReviews(octokit, owner, repo, pr.number, options);
           successCount++;
           return { success: true, reviews, prNumber: pr.number };
         } catch (error: any) {
@@ -137,7 +135,7 @@ async function getRepoReviews(
             console.warn(`Rate limit on PR reviews for ${owner}/${repo} PR #${pr.number}. Retrying once, then stopping.`);
             await sleep(1000);
             try {
-              const reviews = await getPullRequestReviews(owner, repo, pr.number, options);
+              const reviews = await getPullRequestReviews(octokit, owner, repo, pr.number, options);
               successCount++;
               stopDueToRateLimit = true;
               return { success: true, reviews, prNumber: pr.number };
@@ -204,6 +202,7 @@ async function getRepoReviews(
 }
 
 async function getAllReviewsForUser(
+  octokit: Octokit,
   username: string,
   state: ReviewState = "all",
   options: GitHubServiceOptions = {}
@@ -250,7 +249,7 @@ async function getAllReviewsForUser(
 
       const batchPromises = batch.map(async (repo) => {
         try {
-          const reviewsWithErrors = await getRepoReviews(username, repo.name, state, options);
+          const reviewsWithErrors = await getRepoReviews(octokit, username, repo.name, state, options);
 
           if (reviewsWithErrors.reviews.length > 0 || reviewsWithErrors.failed_operations.length > 0) {
             return {
@@ -267,7 +266,7 @@ async function getAllReviewsForUser(
             console.warn(`Rate limit on repo ${repo.name} while aggregating user reviews. Retrying once, then stopping.`);
             await sleep(1000);
             try {
-              const reviewsWithErrors = await getRepoReviews(username, repo.name, state, options);
+              const reviewsWithErrors = await getRepoReviews(octokit, username, repo.name, state, options);
               stopDueToRateLimit = true;
               return {
                 repo: repo.name,
@@ -341,6 +340,7 @@ async function getAllReviewsForUser(
 }
 
 async function getReviewsByUser(
+  octokit: Octokit,
   reviewer: string,
   state: ReviewState = "all",
   options: GitHubServiceOptions = {}
@@ -387,7 +387,7 @@ async function getReviewsByUser(
       const batchPromises = batch.map(async (pr: any) => {
         try {
           const [owner, repo] = pr.repository_url.split('/').slice(-2);
-          const reviews = await getPullRequestReviews(owner, repo, pr.number, options);
+          const reviews = await getPullRequestReviews(octokit, owner, repo, pr.number, options);
 
           const userReviews = reviews.filter(review => review.reviewer?.username === reviewer);
           successCount++;
@@ -398,7 +398,7 @@ async function getReviewsByUser(
             await sleep(1000);
             try {
               const [owner, repo] = pr.repository_url.split('/').slice(-2);
-              const reviews = await getPullRequestReviews(owner, repo, pr.number, options);
+              const reviews = await getPullRequestReviews(octokit, owner, repo, pr.number, options);
               const userReviews = reviews.filter(review => review.reviewer?.username === reviewer);
               successCount++;
               stopDueToRateLimit = true;

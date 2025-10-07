@@ -8,10 +8,6 @@ import { FormattedPullRequest, RepoWithPRs } from "../types/formatted.types";
 import { PullRequestDTO } from "../dtos/PullRequestDTO";
 import { fetchLastReviewOfPullRequest } from "./github.repos";
 
-const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN,
-});
-
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 function isRateLimitError(error: any): boolean {
@@ -22,19 +18,20 @@ function isRateLimitError(error: any): boolean {
   return status === 403 && (remaining === '0' || message.includes('rate limit') || message.includes('quota exhausted'));
 }
 
-async function getUserType(username: string): Promise<string> {
+async function getUserType(octokit: Octokit, username: string): Promise<string> {
   const response = await octokit.request("GET /users/{username}", { username });
   return (response.data as any)?.type || "User";
 }
 
 async function getAllPRsForUser(
+  octokit: Octokit,
   username: string,
   state: PRState = "open",
   options: GitHubServiceOptions = {}
 ): Promise<RepoWithPRs[]> {
   try {
     const { perPage = 30, page = 1 } = options;
-    const accountType = await getUserType(username);
+    const accountType = await getUserType(octokit, username);
     const ownerQualifier = accountType === "Organization" ? `org:${username}` : `user:${username}`;
     const stateQualifier = state === "all" ? "" : state === "open" ? " is:open" : " is:closed";
     const q = `${ownerQualifier} is:pr${stateQualifier}`.trim();
@@ -67,7 +64,7 @@ async function getAllPRsForUser(
     const items = [];
     for (const pr of response.data.items) {
       const [owner, repo] = pr.repository_url?.split("/").slice(-2);
-      const lastReview = await fetchLastReviewOfPullRequest(owner, repo, pr.number);
+      const lastReview = await fetchLastReviewOfPullRequest(octokit, owner, repo, pr.number);
       pr.last_review = lastReview;
       items.push(pr);
     }
@@ -97,7 +94,7 @@ async function getAllPRsForUser(
   }
 }
 
-async function getGitHubRateLimit(): Promise<{
+async function getGitHubRateLimit(octokit: Octokit): Promise<{
   limit: number;
   remaining: number;
   reset: number;
@@ -127,9 +124,9 @@ async function getGitHubRateLimit(): Promise<{
   }
 }
 
-async function getTotalPRCountViaSearch(owner: string, state: PRState = "open"): Promise<number> {
+async function getTotalPRCountViaSearch(octokit: Octokit, owner: string, state: PRState = "open"): Promise<number> {
   try {
-    const accountType = await getUserType(owner);
+    const accountType = await getUserType(octokit, owner);
     const ownerQualifier = accountType === "Organization" ? `org:${owner}` : `user:${owner}`;
     const stateQualifier = state === "all" ? "" : state === "open" ? " is:open" : " is:closed";
     const q = `${ownerQualifier} is:pr${stateQualifier}`.trim();
