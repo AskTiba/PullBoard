@@ -21,11 +21,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       
-      - name: Install dependencies
-        run: npm ci --force
+      - name: Clean install dependencies for client
+        run: |
+          rm -rf node_modules
+          npm ci
+          npm rebuild lightningcss
 
       - name: Run ESLint on client
         run: npm run lint --workspace=client
+
+      - name: Ensure correct Node version for build
+        run: node -v
 
       - name: Build client app
         run: npm run build --workspace=client
