@@ -23,9 +23,10 @@ jobs:
       
       - name: Clean install dependencies for client
         run: |
+          cd client
           rm -rf node_modules
           npm ci
-          npm rebuild lightningcss
+          npm rebuild lightningcss --verbose
 
       - name: Run ESLint on client
         run: npm run lint --workspace=client
