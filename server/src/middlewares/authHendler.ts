@@ -10,13 +10,13 @@ export async function authHandler(req: Request, res: Response, next: NextFunctio
         }
 
         const idToken = bearerToken?.replace("Bearer ", "") || "";
-        const githubAccessToken = await fetchGitHubAccessToken(idToken);
+        const user = await fetchGitHubAccessToken(idToken);
 
-        if (!githubAccessToken) {
+        if (!user || !user.token) {
             return res.status(401).send();
         }
 
-        req.body = req.body ? { ...req.body, user: { githubAccessToken } } : { user: { githubAccessToken } }
+        req.body = req.body ? { ...req.body, user } : { user }
         return next();
     } catch (err) {
         res.status(401).send();

@@ -34,7 +34,7 @@ async function getAllPRsForUser(
     const accountType = await getUserType(octokit, username);
     const ownerQualifier = accountType === "Organization" ? `org:${username}` : `user:${username}`;
     const stateQualifier = state === "all" ? "" : state === "open" ? " is:open" : " is:closed";
-    const q = `${ownerQualifier} is:pr${stateQualifier}`.trim();
+    const q = `is:pr${stateQualifier} author:${username}`.trim();
 
     let response: any;
     try {
@@ -124,19 +124,19 @@ async function getGitHubRateLimit(octokit: Octokit): Promise<{
   }
 }
 
-async function getTotalPRCountViaSearch(octokit: Octokit, owner: string, state: PRState = "open"): Promise<number> {
+async function getTotalPRCountViaSearch(octokit: Octokit, username: string, state: PRState = "open"): Promise<number> {
   try {
-    const accountType = await getUserType(octokit, owner);
-    const ownerQualifier = accountType === "Organization" ? `org:${owner}` : `user:${owner}`;
+    const accountType = await getUserType(octokit, username);
+    const ownerQualifier = accountType === "Organization" ? `org:${username}` : `user:${username}`;
     const stateQualifier = state === "all" ? "" : state === "open" ? " is:open" : " is:closed";
-    const q = `${ownerQualifier} is:pr${stateQualifier}`.trim();
+    const q = `is:pr${stateQualifier} author:${username}`.trim();
 
     let response;
     try {
       response = await octokit.request("GET /search/issues", { q, per_page: 1 });
     } catch (err: any) {
       if (isRateLimitError(err)) {
-        console.warn(`Rate limit on search issues for ${owner}. Retrying once.`);
+        console.warn(`Rate limit on search issues for ${username}. Retrying once.`);
         await sleep(1000);
         response = await octokit.request("GET /search/issues", { q, per_page: 1 });
       } else {
@@ -148,11 +148,11 @@ async function getTotalPRCountViaSearch(octokit: Octokit, owner: string, state: 
     return total;
   } catch (error: any) {
     const githubError: GitHubError = {
-      message: error.message || `Error fetching total PR count via search for ${owner}`,
+      message: error.message || `Error fetching total PR count via search for ${username}`,
       status: error.status,
       documentation_url: error.response?.data?.documentation_url
     };
-    console.error(`Error fetching total PR count via search for ${owner}:`, githubError);
+    console.error(`Error fetching total PR count via search for ${username}:`, githubError);
     throw githubError;
   }
 }

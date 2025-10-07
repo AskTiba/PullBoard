@@ -15,8 +15,7 @@ import { Octokit } from "octokit";
 // All PRs of a User
 export async function getUserPRs(req: Request, res: Response, next: NextFunction) {
   try {
-    const { githubAccessToken } = req.body.user;
-    const { username } = req.params;
+    const { username, token } = req.body.user;
     const { state = "open", per_page = "10", page = "1" } = req.query;
 
     const validStates: PRState[] = ["open", "closed", "all"];
@@ -31,7 +30,7 @@ export async function getUserPRs(req: Request, res: Response, next: NextFunction
     const pageNum = Math.max(parseInt(page as string) || 1, 1);
 
     const options = { perPage, page: pageNum };
-    const octokit = new Octokit({ auth: githubAccessToken });
+    const octokit = new Octokit({ auth: token });
     const [reposWithPRs, totalPRsAllRepos, rateLimit] =
       await Promise.all([
         getAllPRsForUser(octokit, username, prState, options),
@@ -63,13 +62,13 @@ export async function getPullRequestsOfRepository(req: Request, res: Response, n
   const { state = 'open', page = '1', per_page = '30' } = req.query;
 
   try {
-    const { githubAccessToken } = req.body.user;
+    const { token } = req.body.user;
     const validStates: PRState[] = ['open', 'closed', 'all'];
     const prState = validStates.includes(state as PRState) ? state as PRState : 'open';
 
     const perPage = Math.min(Math.max(parseInt(per_page as string) || 30, 1), 100);
     const pageNum = Math.max(parseInt(page as string) || 1, 1);
-    const octokit = new Octokit({ auth: githubAccessToken });
+    const octokit = new Octokit({ auth: token });
     const [prs, rateLimit] = await Promise.all([
       fetchPullRequestsOfRepo(octokit, username, repo, prState, pageNum, perPage),
       getGitHubRateLimit(octokit)

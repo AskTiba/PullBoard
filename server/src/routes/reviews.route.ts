@@ -12,15 +12,11 @@ const router = Router();
 
 router.get("/reviews/:username", authHandler, getUserReviews);
 
-
 router.get("/reviews/:username/:repo", authHandler, getUserRepoReviews);
-
 
 router.get("/reviews/:username/:repo/:pullNumber", authHandler, getPRReviews);
 
-
 router.get("/reviewer/:reviewer", authHandler, getReviewsByReviewer);
-
 
 router.get("/stats/:username", authHandler, getReviewStats);
 

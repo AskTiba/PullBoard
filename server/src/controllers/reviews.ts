@@ -19,8 +19,8 @@ import { Octokit } from "octokit";
 
 export async function getPRReviews(req: Request, res: Response) {
   try {
-    const { githubAccessToken } = req.body.user;
-    const octokit = new Octokit({ auth: githubAccessToken });
+    const { username: authenticatedUser, token } = req.body.user;
+    const octokit = new Octokit({ auth: token });
     const { username, repo, pullNumber } = req.params;
     const {
       state = 'all',
@@ -85,8 +85,8 @@ export async function getPRReviews(req: Request, res: Response) {
 
 export async function getUserRepoReviews(req: Request, res: Response) {
   try {
-    const { githubAccessToken } = req.body.user;
-    const octokit = new Octokit({ auth: githubAccessToken });
+    const { username: authenticatedUser, token } = req.body.user;
+    const octokit = new Octokit({ auth: token });
     const { username, repo } = req.params;
     const {
       state = 'all',
@@ -143,8 +143,8 @@ export async function getUserRepoReviews(req: Request, res: Response) {
 
 export async function getUserReviews(req: Request, res: Response) {
   try {
-    const { githubAccessToken } = req.body.user;
-    const octokit = new Octokit({ auth: githubAccessToken });
+    const { username: authenticatedUser, token } = req.body.user;
+    const octokit = new Octokit({ auth: token });
     const { username } = req.params;
     const {
       state = 'all',
@@ -195,8 +195,8 @@ export async function getUserReviews(req: Request, res: Response) {
 
 export async function getReviewsByReviewer(req: Request, res: Response) {
   try {
-    const { githubAccessToken } = req.body.user;
-    const octokit = new Octokit({ auth: githubAccessToken });
+    const { username: authenticatedUser, token } = req.body.user;
+    const octokit = new Octokit({ auth: token });
     const { reviewer } = req.params;
     const {
       state = 'all',
@@ -258,8 +258,8 @@ export async function getReviewsByReviewer(req: Request, res: Response) {
 
 export async function getReviewStats(req: Request, res: Response) {
   try {
-    const { githubAccessToken } = req.body.user;
-    const octokit = new Octokit({ auth: githubAccessToken });
+    const { username: authenticatedUser, token } = req.body.user;
+    const octokit = new Octokit({ auth: token });
     const { username } = req.params;
     const { repo } = req.query;
 

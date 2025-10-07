@@ -2,16 +2,15 @@ import { Octokit } from "octokit"
 import { parseLinkHeader } from "../utils/pagination";
 import { RepositoryDTO } from "../dtos/RepositoryDTO";
 import { PullRequestDTO } from "../dtos/PullRequestDTO";
+import { FormattedRepo } from "../types/formatted.types";
 
-// Get public repositories of a user
-export async function fetchRepositoriesOfUser(octokit: Octokit, username: string, page = 1, perPage = 30) {
+// Get repositories where the user is the owner/contributor/organization member and has push permission
+// Get all repos of user
+// Filter only those that have push permission
+// Set a 50 page limit becaue of GitHub API rate limit
+export async function fetchRepositoriesOfUser(octokit: Octokit, page = 2, perPage = 30) {
     try {
-        const response = await octokit.request('GET /users/{username}/repos', {
-            username: username,
-
-            // Filters
-            type: 'all',
-
+        const response = await octokit.request('GET /user/repos', {
             // Pagination
             page: page,
             per_page: perPage,
@@ -22,15 +21,17 @@ export async function fetchRepositoriesOfUser(octokit: Octokit, username: string
         });
 
         return {
-            data: response.data.map((repo: any) => RepositoryDTO.fromGitHubAPIToModel(repo)),
+            data: response.data
+                .filter((repo: any) => repo?.permissions.push)
+                .map((repo: any) => RepositoryDTO.fromGitHubAPIToModel(repo)),
             pagination: await buildPagination(
                 octokit,
                 response.headers.link,
                 page,
                 perPage,
                 response.data.length,
-                '/users/{username}/repos',
-                { username: username, type: 'all' }
+                '/user/repos',
+                {}
             )
         };
     } catch (error: any) {
