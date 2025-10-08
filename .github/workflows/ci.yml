@@ -1,9 +1,9 @@
 name: CI Pipeline
 on:
   pull_request:
-    branches: ["main", "dev"]
+    branches: ["main", "frontend-dev"]
   push:
-    branches: ["main", "dev"]
+    branches: ["main", "frontend-dev"]
 
 jobs:
   frontend:
@@ -52,7 +52,7 @@ jobs:
         run: npm install --workspace=server
 
       - name: Check server syntax
-        run: node --check server/src/server.js
+        run: node --check server/src/server.ts
 
     #   - name: Run server tests
     #     run: npm run test --workspace=server

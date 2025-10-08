@@ -12,35 +12,38 @@ export default function KeyFeatures() {
     },
     {
       icon: <Timer />,
-      title: "SLA & Deadline Tracking",
+      title: "Historical data",
       description:
-        "Ensure pull requests are reviewed on time by setting and tracking Service Level Agreement (SLA) deadlines.",
+        "Access comprehensive records of all closed and merged of all closed and merged pull requests for project insights.",
     },
     {
       icon: <Filter />,
-      title: "Customizable Filters",
+      title: "Advanced filtering",
       description:
-        "Create and save custom filters to quickly find the pull requests that need your attention.",
+        "Filter results by team members, dates and other criteria to find exactly what you need.",
     },
   ];
 
   return (
-    <main className=" py-20 px-6">
-      <div className="max-w-screen-lg mx-auto">
-        <h2 className="text-center text-2xl font-bold text-gray-800 mb-12">
+    <main className="md:pt-30 pt-55 pb-40 px-6">
+      <img src="/box-elements.webp" alt="" className="w-full" />
+      <div className="max-w-screen-lg mx-auto z-0 mt-[-140px]">
+        <h2 className="text-center text-4xl font-semibold text-gray-800 mb-12">
           Key Features
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {cardData.map((card, index) => (
             <section
               key={index}
-              className="bg-white p-8 rounded-xl shadow-lg text-left transform hover:-translate-y-2 transition-transform duration-300"
+              className="bg-white p-8 rounded-xl border-[0.5px] border-gray-300 text-left"
             >
-              <div className="bg-gray-400 w-fit p-1 rounded-lg mb-6">
-                {card.icon}
+              <div className="flex flex-col justify-between gap-7 h-full">
+                <div className="outline-1 w-fit p-2 rounded-full font-semibold">
+                  {card.title}
+                </div>
+                <p className="text-gray-600">{card.description}</p>
+                <div>{card.icon}</div>
               </div>
-              <h3 className="font-bold text-xl mb-3">{card.title}</h3>
-              <p className="text-gray-600">{card.description}</p>
             </section>
           ))}
         </div>
