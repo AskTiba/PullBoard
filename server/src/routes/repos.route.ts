@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import { getAllRepositoriesOfUser } from "../controllers/RepositoryController";
+import { authHandler } from "../middlewares/authHendler";
 
 const router = Router();
 
@@ -41,6 +42,6 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/UserRepositoriesResponse'
  */
-router.get('/repos/:username', getAllRepositoriesOfUser);
+router.get('/repos/:username', authHandler, getAllRepositoriesOfUser);
 
 export default router;

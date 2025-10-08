@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getPullRequestsOfRepository, getUserPRs } from "../controllers/pullRequests";
+import { authHandler } from "../middlewares/authHendler";
 
 const router = Router();
 
@@ -47,7 +48,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/PullRequestResponse'
  */
-router.get("/prs/:username", getUserPRs);
+router.get("/prs/:username", authHandler, getUserPRs);
 
 /**
  * @swagger
@@ -90,6 +91,6 @@ router.get("/prs/:username", getUserPRs);
  *             schema:
  *               $ref: '#/components/schemas/RepoPRResponse'
  */
-router.get("/prs/:username/:repo", getPullRequestsOfRepository);
+router.get("/prs/:username/:repo", authHandler, getPullRequestsOfRepository);
 
 export default router;

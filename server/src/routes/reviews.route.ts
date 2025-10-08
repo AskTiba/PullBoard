@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { 
+import {
   getPRReviews,
-  getUserRepoReviews, 
+  getUserRepoReviews,
   getUserReviews,
   getReviewsByReviewer,
   getReviewStats
 } from "../controllers/reviews";
+import { authHandler } from "../middlewares/authHendler";
 
 const router = Router();
 
@@ -52,8 +53,7 @@ const router = Router();
  *             schema:
  *               $ref: '#/components/schemas/UserReviewResponse'
  */
-router.get("/reviews/:username", getUserReviews);
-
+router.get("/reviews/:username", authHandler, getUserReviews);
 
 /**
  * @swagger
@@ -96,8 +96,7 @@ router.get("/reviews/:username", getUserReviews);
  *             schema:
  *               $ref: '#/components/schemas/RepoReviewResponse'
  */
-router.get("/reviews/:username/:repo", getUserRepoReviews);
-
+router.get("/reviews/:username/:repo", authHandler, getUserRepoReviews);
 
 /**
  * @swagger
@@ -139,7 +138,7 @@ router.get("/reviews/:username/:repo", getUserRepoReviews);
  *             schema:
  *               $ref: '#/components/schemas/PRReviewResponse'
  */
-router.get("/reviews/:username/:repo/:pullNumber", getPRReviews);
+router.get("/reviews/:username/:repo/:pullNumber", authHandler, getPRReviews);
 
 
 /**
@@ -178,7 +177,7 @@ router.get("/reviews/:username/:repo/:pullNumber", getPRReviews);
  *             schema:
  *               $ref: '#/components/schemas/ReviewerReviewsResponse'
  */
-router.get("/reviewer/:reviewer", getReviewsByReviewer);
+router.get("/reviewer/:reviewer", authHandler, getReviewsByReviewer);
 
 
 /**
@@ -206,6 +205,6 @@ router.get("/reviewer/:reviewer", getReviewsByReviewer);
  *             schema:
  *               $ref: '#/components/schemas/ReviewStatsResponse'
  */
-router.get("/stats/:username", getReviewStats);
+router.get("/stats/:username", authHandler, getReviewStats);
 
 export default router;

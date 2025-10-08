@@ -32,6 +32,5 @@ admin.initializeApp({
     databaseURL: `https://${PROJECT_ID}.firebaseio.com`
 });
 
-const db = admin.firestore();
-
-export default db;
+export const db = admin.firestore();
+export const auth = admin.auth();
