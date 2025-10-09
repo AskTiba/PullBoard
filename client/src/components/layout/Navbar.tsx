@@ -1,9 +1,12 @@
+import { useAuth } from "../../context/AuthContext";
 import { PBIcon, PBLogo } from "../brand";
 import DateDisplay from "../ui/DateDisplay";
 import HamburgerComponent from "./Hamburger";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const { user, logOut } = useAuth();
+
   return (
     <div className="border-b-[0.5px] border-gray-300 px-6 pr-8">
       <div className="flex justify-between max-w-7xl mx-auto items-center">
@@ -40,10 +43,18 @@ const Navbar = () => {
 
         <div className="md:flex hidden items-center gap-2">
           <DateDisplay format="Month Do, YYYY" className="text-gray-400" />
-          
-          <Link to="/auth" className="">
+
+          <Link to={user ? "/dashboard" : "/auth"} className="">
             <PBIcon />
           </Link>
+        </div>
+        <div>
+          {user
+            && <>
+              <p>{user.username}</p>
+              <button onClick={logOut}>Logout</button>
+            </>
+          }
         </div>
       </div>
     </div>
