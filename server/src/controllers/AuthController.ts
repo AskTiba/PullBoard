@@ -14,13 +14,3 @@ export async function loginWithGitHub(req: Request, res: Response, next: NextFun
         next(err);
     }
 }
-
-export async function getAuthenticatedUser(req: Request, res: Response, next: NextFunction) {
-    if (req.body?.user?.username) {
-        return res.status(200).json({
-            username: req.body.user.username,
-            avatarUrl: req.body.user.avatarUrl
-        })
-    }
-    next("Could not get authenticated user's username");
-} 
