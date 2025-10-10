@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 
 export default function Auth() {
-  const { loading, logIn } = useAuth();
+  const { loading, logIn, error } = useAuth();
 
   return (
     <main className="grid grid-cols-1 md:grid-cols-2">
@@ -28,6 +28,7 @@ export default function Auth() {
             <GitHub />
             <span className="">Sign in with GitHub {loading && "..."}</span>
           </button>
+          {error && <p>{error}</p>}
         </div>
       </div>
     </main>

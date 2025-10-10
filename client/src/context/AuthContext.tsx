@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState, createContext, ReactNode } from "react";
 import { auth } from "../config/firebase";
 import { GithubAuthProvider, onAuthStateChanged, signInWithPopup } from "firebase/auth";
-import { loginWithGithub } from "../services/AuthenticationService";
 import { useNavigate } from "react-router-dom";
+import { signIn } from "../services/AuthenticationService";
 
 interface User {
     username: string,
@@ -12,6 +12,7 @@ interface User {
 interface AuthContextType {
     user: User | null;
     loading: boolean;
+    error: string | null;
     logIn: () => {};
     logOut: () => {};
 }
@@ -25,7 +26,8 @@ export function useAuth() {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
-    const [loading, isLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
@@ -42,32 +44,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     async function logIn() {
-        isLoading(true);
-        const provider = new GithubAuthProvider();
+        setLoading(true);
+        setError(null);
 
-        provider.addScope("repo");
-        provider.addScope("user");
+        try {
+            const provider = new GithubAuthProvider();
 
-        const result = await signInWithPopup(auth, provider);
+            provider.addScope("repo");
+            provider.addScope("user");
 
-        const credential = GithubAuthProvider.credentialFromResult(result);
-        const githubAccessToken = credential?.accessToken;
+            const result = await signInWithPopup(auth, provider);
 
-        if (!githubAccessToken) {
-            console.error("Login ERRROR");
-            return null;
-        }
+            const credential = GithubAuthProvider.credentialFromResult(result);
+            const githubAccessToken = credential?.accessToken;
 
-        const user = result.user;
-        const idToken = await user.getIdToken();
+            if (!githubAccessToken) throw new Error("Github login failed: no access token")
 
-        const authenticatedUser = await loginWithGithub(idToken, githubAccessToken);
-        if (authenticatedUser) {
-            const { username, avatarUrl } = authenticatedUser;
+            const user = result.user;
+            const idToken = await user.getIdToken();
+
+            const data = await signIn(idToken, githubAccessToken);
+
+            if (!data) throw new Error("Login failed: server did not return user data");
+
+            const { username, avatarUrl } = data;
+
             localStorage.setItem("user", JSON.stringify({ username, avatarUrl }))
             setUser({ username, avatarUrl });
-            isLoading(false);
+
             navigate("/");
+        } catch (err: any) {
+            setError(err.message || "An unexpected error occured");
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -80,6 +89,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const value = {
         user,
         loading,
+        error,
         logIn,
         logOut
     };

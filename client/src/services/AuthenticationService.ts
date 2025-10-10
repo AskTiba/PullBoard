@@ -1,15 +1,14 @@
-import { useFetchWrapper } from "../hooks/fetchWrapper";
+import { api } from "../lib/axios";
 
-
-export async function loginWithGithub(idToken: string, githubAccessToken: string) {
-    const path = "http://localhost:3200/api/login";
-    const fetchWrapper = useFetchWrapper();
-
-    const response = await fetchWrapper.post(path, { idToken, githubAccessToken });
-
-    if (response.status === 200) {
-        const user = await response.json();
-        return user;
-    }
-    return null;
+export async function signIn(idToken: string, githubAccessToken: string) {
+    const url = "http://localhost:3200/api/login";
+    const response = await api.request({
+        url,
+        method: "POST",
+        data: {
+            idToken,
+            githubAccessToken
+        }
+    });
+    return response.status === 200 ? response.data : null;
 }
