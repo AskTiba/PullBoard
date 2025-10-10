@@ -3,6 +3,6 @@ import { loginWithGitHub } from "../controllers/AuthController";
 
 const router = Router();
 
-router.get("/login", loginWithGitHub);
+router.post("/login", loginWithGitHub);
 
 export default router;

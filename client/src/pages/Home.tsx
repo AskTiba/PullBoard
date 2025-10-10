@@ -9,10 +9,10 @@ const Home: React.FC = () => {
   return (
     <>
       <Hero />
-      <Welcome/>
+      <Welcome />
       <KeyFeatures />
       <WhyChoose />
-      <CTA/>
+      <CTA />
     </>
   );
 };

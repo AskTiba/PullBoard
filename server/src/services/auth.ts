@@ -6,11 +6,12 @@ export async function loginUserWithGitHub(idToken: string, githubAccessToken: st
     try {
         const decoded = await auth.verifyIdToken(idToken);
         const uid = decoded.uid;
-        const octokit = new Octokit({auth: githubAccessToken});
+        const octokit = new Octokit({ auth: githubAccessToken });
         const user = await octokit.request("GET /user")
-        console.log("***********************USER**************************")
-        console.log(user?.data?.login)
-        await saveGitHubToken(uid, githubAccessToken, user?.data?.login);
+
+        await saveGitHubToken(uid, githubAccessToken, user?.data?.login, user?.data?.avatar_url);
+
+        return { username: user?.data?.login, avatarUrl: user?.data?.avatar_url };
     } catch (err: any) {
         throw new Error(`Login error ${err.message}`)
     }
