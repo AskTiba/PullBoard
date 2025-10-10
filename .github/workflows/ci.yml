@@ -1,0 +1,63 @@
+name: CI Pipeline
+on:
+  pull_request:
+    branches: ["main", "dev"]
+  push:
+    branches: ["main", "dev"]
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies (workspace root)
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci -ws --include-workspace-root || npm install -ws --include-workspace-root --no-audit --no-fund
+          else
+            npm install -ws --include-workspace-root --no-audit --no-fund
+          fi
+
+      - name: Run ESLint on client
+        run: npm run lint --workspace=client
+
+      - name: Build client app
+        run: npm run build --workspace=client
+
+  backend:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies (workspace root)
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci -ws --include-workspace-root || npm install -ws --include-workspace-root --no-audit --no-fund
+          else
+            npm install -ws --include-workspace-root --no-audit --no-fund
+          fi
+      - name: Type-check server (tsc noEmit)
+        run: npm run typecheck --workspace=server
