@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { loginWithGitHub } from "../controllers/AuthController";
+import { getAuthenticatedUser, loginWithGitHub } from "../controllers/AuthController";
+import { authHandler } from "../middlewares/authHendler";
 
 const router = Router();
 
-router.get("/login", loginWithGitHub);
+router.post("/login", loginWithGitHub);
+router.get("/user", authHandler, getAuthenticatedUser);
 
 export default router;
