@@ -1,13 +1,15 @@
 import express from "express";
+import cors from 'cors';
 import { PORT } from "./config/env";
 import router from "./routes/index.route";
 import { errorHandler } from "./middlewares/errorHandler";
 import swaggerUi from "swagger-ui-express";
+// testing server
 import { swaggerSpec } from "./config/swagger";
 
-// testing server
 const app = express();
 
+app.use(cors())
 app.use(express.json());
 
 // Swagger docs (cast to any to satisfy Express v5 typings)
