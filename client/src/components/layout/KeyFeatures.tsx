@@ -1,49 +1,81 @@
 import { GitPR } from "../icons";
-import Timer from "../ui/timer"; // New import
-import Filter from "../icons/filter"; // New import
+import Timer from "../ui/timer";
+import Filter from "../icons/filter";
 
 export default function KeyFeatures() {
   const cardData = [
     {
-      icon: <GitPR />,
+      icon: <GitPR className="size-6 text-white" />,
       title: "Open PR Tracking",
       description:
         "Monitor all open pull requests with detailed information including reviewers, creation dates and last actions.",
+      color: "#28a745",
     },
     {
-      icon: <Timer />,
-      title: "Historical data",
+      icon: <Timer className="size-6 text-white" />,
+      title: "Historical Data",
       description:
-        "Access comprehensive records of all closed and merged of all closed and merged pull requests for project insights.",
+        "Access comprehensive records of all closed and merged pull requests for project insights.",
+      color: "#6f42c1",
     },
     {
-      icon: <Filter />,
-      title: "Advanced filtering",
+      icon: <Filter className="size-6 text-white" />,
+      title: "Advanced Filtering",
       description:
-        "Filter results by team members, dates and other criteria to find exactly what you need.",
+        "Filter results by team members, dates, and other criteria to find exactly what you need.",
+      color: "#d73a49",
     },
   ];
 
   return (
-    <main className="md:pt-30 pt-55 pb-40 px-6">
-      <img src="/box-elements.webp" alt="" className="w-full" />
-      <div className="max-w-screen-lg mx-auto z-0 mt-[-140px]">
-        <h2 className="text-center text-4xl font-semibold text-gray-800 mb-12">
+    <main className="relative md:pt-32 pt-24 pb-20 px-6 bg-[#F3F7FA] overflow-hidden">
+      {/* Background floating blobs */}
+      <span
+        className="absolute top-[-50px] left-[-50px] w-48 h-48 rounded-full opacity-20 animate-pulse-slow"
+        style={{ backgroundColor: "#28a745" }}
+      ></span>
+      <span
+        className="absolute bottom-[-40px] right-[-40px] w-60 h-60 rounded-full opacity-20 animate-pulse-slow"
+        style={{ backgroundColor: "#6f42c1" }}
+      ></span>
+      <span
+        className="absolute top-1/2 left-[80%] w-32 h-32 rounded-full opacity-20 animate-pulse-slow"
+        style={{ backgroundColor: "#d73a49" }}
+      ></span>
+
+      <div className="max-w-screen-lg mx-auto relative z-10">
+        {/* Section Title with subtle gradient */}
+        <h2 className="text-center text-4xl md:text-5xl font-extrabold mb-16 bg-clip-text text-transparent bg-gradient-to-r from-[#6f42c1] via-[#28a745] to-[#d73a49]">
           Key Features
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {cardData.map((card, index) => (
+
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {cardData.map((card, idx) => (
             <section
-              key={index}
-              className="bg-white p-8 rounded-xl border-[0.5px] border-gray-300 text-left"
+              key={idx}
+              className="relative bg-white p-8 rounded-3xl shadow-lg border-[0.5px] border-gray-200
+                flex flex-col items-start gap-6 transform transition-transform duration-300 hover:-translate-y-3 hover:shadow-2xl"
             >
-              <div className="flex flex-col justify-between gap-7 h-full">
-                <div className="outline-1 w-fit p-2 rounded-full font-semibold">
-                  {card.title}
-                </div>
-                <p className="text-gray-600">{card.description}</p>
-                <div>{card.icon}</div>
+              {/* Icon floating inside colored circle */}
+              <div className="relative w-16 h-16 flex items-center justify-center">
+                <span
+                  className="absolute size-12 rounded-full opacity-20 animate-pulse-slow"
+                  style={{ backgroundColor: card.color }}
+                ></span>
+                <div className="relative animate-float">{card.icon}</div>
               </div>
+
+              {/* Badge */}
+              <div
+                className="inline-block px-3 py-1 rounded-full font-semibold text-white text-sm"
+                style={{ backgroundColor: card.color }}
+              >
+                {card.title.toUpperCase()}
+              </div>
+
+              {/* Description */}
+              <p className="text-gray-700">{card.description}</p>
             </section>
           ))}
         </div>

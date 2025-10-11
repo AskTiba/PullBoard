@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { PBIcon, PBLogo } from "../brand";
+import { PBIcon } from "../brand";
 import DateDisplay from "../ui/DateDisplay";
 import HamburgerComponent from "./Hamburger";
 import { Link, useLocation } from "react-router-dom";
@@ -15,6 +15,7 @@ const Navbar = () => {
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const [showNavbar, setShowNavbar] = useState(true);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -22,6 +23,23 @@ const Navbar = () => {
     { name: "Open PRs", path: "/open-prs" },
     { name: "Closed PRs", path: "/closed-prs" },
   ];
+
+  // Hide/show navbar on scroll
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY && window.scrollY > 80) {
+        setShowNavbar(false); // scrolling down → hide
+      } else {
+        setShowNavbar(true); // scrolling up → show
+      }
+      lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -35,10 +53,14 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="sticky top-0 bg-white border-b border-gray-200 shadow-sm z-50">
+    <nav
+      className={`sticky top-0 bg-white border-b border-gray-200 shadow-sm z-50 transition-transform duration-300 ease-in-out ${
+        showNavbar ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       <div className="flex justify-between items-center max-w-7xl mx-auto px-6 py-2">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2 -ml-2">
           <NavBarLogo />
         </Link>
 

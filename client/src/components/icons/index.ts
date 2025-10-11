@@ -10,3 +10,5 @@ export { default as X } from './x';
 export { default as Docs } from './docs';
 export { default as Logout } from './logout';
 export { default as DashBoardLogo } from './dashboardLogo';
+export { default as HourGlass } from './hourglass';
+export { default as ClosedPR } from './closedPR';
