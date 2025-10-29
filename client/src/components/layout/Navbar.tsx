@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useRepo } from "../../context/RepoContext";
 import { PBIcon } from "../brand";
 import DateDisplay from "../ui/DateDisplay";
 import HamburgerComponent from "./Hamburger";
@@ -12,17 +13,22 @@ import NavBarLogo from "../icons/navbarLogo";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const { owner, repo } = useRepo();
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [showNavbar, setShowNavbar] = useState(true);
 
-  const navLinks = [
+  const navLinks = useMemo(() => [
     { name: "Home", path: "/" },
     { name: "Dashboard", path: "/dashboard" },
-    { name: "Open PRs", path: "/open-prs" },
-    { name: "Closed PRs", path: "/closed-prs" },
-  ];
+    {
+      name: "Pull Requests",
+      path: owner && repo
+        ? `/pull-requests/${owner}/${repo}`
+        : "/pull-requests",
+    },
+  ], [owner, repo]);
 
   // Hide/show navbar on scroll
   useEffect(() => {
@@ -70,8 +76,8 @@ const Navbar = () => {
             <Link key={link.path} to={link.path}>
               <div
                 className={`cursor-pointer text-gray-700 text-[16px] font-medium px-4 py-2 rounded-md transition-all duration-200 
-                  ${
-                    location.pathname === link.path
+                  {
+                    location.pathname.startsWith(link.path)
                       ? "bg-gray-100 text-black"
                       : "hover:bg-gray-100"
                   }`}
@@ -100,7 +106,10 @@ const Navbar = () => {
             <div className="relative">
               {/* User avatar cluster */}
               <button
-                onClick={() => setOpenMenu(!openMenu)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenMenu(!openMenu);
+                }}
                 className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 transition-all px-3 py-1.5 rounded-full border border-gray-200 shadow-sm"
               >
                 {/* Avatar / Initials */}
@@ -142,28 +151,18 @@ const Navbar = () => {
                       Dashboard
                     </Link>
                     <Link
-                      to="/open-prs"
+                      to={owner && repo
+                        ? `/pull-requests/${owner}/${repo}`
+                        : "/pull-requests"}
                       className={`flex items-center gap-2 px-4 py-2 text-sm transition-all ${
-                        location.pathname === "/open-prs"
+                        location.pathname.startsWith("/pull-requests")
                           ? "bg-gray-100 text-gray-900 font-medium"
                           : "text-gray-700 hover:bg-gray-50"
                       }`}
                       onClick={() => setOpenMenu(false)}
                     >
-                      <GitPR width={20} fill="#58AD58" />
-                      Open PRs
-                    </Link>
-                    <Link
-                      to="/closed-prs"
-                      className={`flex items-center gap-2 px-4 py-2 text-sm transition-all ${
-                        location.pathname === "/closed-prs"
-                          ? "bg-gray-100 text-gray-900 font-medium"
-                          : "text-gray-700 hover:bg-gray-50"
-                      }`}
-                      onClick={() => setOpenMenu(false)}
-                    >
-                      <GitPR width={20} fill="#EB5B53" />
-                      Closed PRs
+                      <GitPR width={20} fill="#9A89C0" />
+                      Pull Requests
                     </Link>
                     <div className="border-t border-gray-100"></div>
                     <button

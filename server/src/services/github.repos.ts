@@ -8,7 +8,7 @@ import { FormattedRepo } from "../types/formatted.types";
 // Get all repos of user
 // Filter only those that have push permission
 // Set a 50 page limit becaue of GitHub API rate limit
-export async function fetchRepositoriesOfUser(octokit: Octokit, page = 2, perPage = 30) {
+export async function fetchRepositoriesOfUser(octokit: Octokit, page = 1, perPage = 30) {
     try {
         const response = await octokit.request('GET /user/repos', {
             // Pagination
@@ -39,6 +39,47 @@ export async function fetchRepositoriesOfUser(octokit: Octokit, page = 2, perPag
 
         throw new Error(error.message);
     }
+}
+
+export async function fetchAllCommitsOfRepo(
+    octokit: Octokit,
+    owner: string,
+    repo: string
+): Promise<Record<string, number>> {
+    const commitsByAuthor: Record<string, number> = {};
+    let page = 1;
+    let hasNextPage = true;
+
+    while (hasNextPage) {
+        const response = await octokit.request('GET /repos/{owner}/{repo}/commits', {
+            owner,
+            repo,
+            per_page: 100, // Max per_page
+            page,
+        });
+
+        for (const commit of response.data) {
+            let authorIdentifier = commit.author?.login;
+            if (!authorIdentifier && commit.committer?.login) {
+                authorIdentifier = commit.committer.login;
+            }
+            if (!authorIdentifier && commit.commit.author?.name) {
+                authorIdentifier = commit.commit.author.name;
+            }
+            if (!authorIdentifier && commit.commit.committer?.name) {
+                authorIdentifier = commit.commit.committer.name;
+            }
+            if (authorIdentifier) {
+                commitsByAuthor[authorIdentifier] = (commitsByAuthor[authorIdentifier] || 0) + 1;
+            }
+        }
+
+        const linkHeader = response.headers.link;
+        hasNextPage = linkHeader ? parseLinkHeader(linkHeader).next !== undefined : false;
+        page++;
+    }
+
+    return commitsByAuthor;
 }
 
 // Get PRs of a public repo
