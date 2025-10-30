@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface RepoFormProps {
   handleSubmit: (owner: string, repo: string) => void;
+  initialOwner: string;
+  initialRepo: string;
 }
 
-const RepoForm: React.FC<RepoFormProps> = ({ handleSubmit }) => {
+const RepoForm: React.FC<RepoFormProps> = ({ handleSubmit, initialOwner, initialRepo }) => {
   const [repoUrl, setRepoUrl] = useState('');
+
+  useEffect(() => {
+    if (initialOwner && initialRepo) {
+      setRepoUrl(`https://github.com/${initialOwner}/${initialRepo}`);
+    } else {
+      setRepoUrl('');
+    }
+  }, [initialOwner, initialRepo]);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -8,6 +8,7 @@ import AuthLayout from "./pages/AuthLayout";
 import { AuthProvider } from "./context/AuthContext";
 import RequireAuth from "./pages/RequireAuth";
 import PullRequests from "./pages/PullRequests";
+import DependencyTimeMachine from "./pages/DependencyTimeMachine";
 
 function App() {
   // const [count, setCount] = useState(0);
@@ -23,6 +24,7 @@ function App() {
           <Route element={<RequireAuth />}>
             <Route path="/pull-requests/:owner/:repo" element={<PullRequests />} />
             <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/dependency-time-machine" element={<DependencyTimeMachine />} />
           </Route>
         </Route>
       </Routes>

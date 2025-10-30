@@ -24,3 +24,4 @@ export const AUTH_PROVIDER_X509_CERT_URL = required(
 );
 export const CLIENT_X509_CERT_URL = required("CLIENT_X509_CERT_URL");
 export const UNIVERSE_DOMAIN = required("UNIVERSE_DOMAIN");
+export const GITHUB_PAT = process.env.GITHUB_PAT; // Export GITHUB_PAT (optional, as it might not always be present)

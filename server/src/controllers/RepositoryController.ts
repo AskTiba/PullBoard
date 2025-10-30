@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { fetchRepositoriesOfUser } from "../services/github.repos"
+import { fetchRepositoriesOfUser, fetchAllCommitsOfRepo } from "../services/github.repos"
 import { getGitHubRateLimit } from "../services/github.open.prs";
 import { formatUserRepositoriesResponse } from "../utils/pullRequestFormatter";
 import { Octokit } from "octokit";
+import { GITHUB_PAT } from '../config/env';
 
 // List public repositories of a user
 
@@ -33,6 +34,21 @@ export async function getAllRepositoriesOfUser(req: Request, res: Response, next
             ...response,
             rate_limit: rateLimit
         });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export async function getAllCommitsOfRepo(req: Request, res: Response, next: NextFunction) {
+    try {
+        const { owner, repo } = req.params;
+        const octokit = new Octokit({
+            auth: GITHUB_PAT // Use the backend's PAT
+        });
+
+        const commitsByAuthor = await fetchAllCommitsOfRepo(octokit, owner, repo);
+
+        res.status(200).json(commitsByAuthor);
     } catch (error) {
         next(error);
     }

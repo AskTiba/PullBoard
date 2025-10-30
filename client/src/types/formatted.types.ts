@@ -72,3 +72,16 @@ export interface FailedOperation {
     error_code?: number;
     details?: string;
 }
+
+export interface CommitInfo {
+    sha: string;
+    message: string;
+    author: string;
+    date: string;
+}
+
+export interface DependencyHistory {
+    commit: CommitInfo;
+    dependencies: Record<string, string>;
+    devDependencies: Record<string, string>;
+}

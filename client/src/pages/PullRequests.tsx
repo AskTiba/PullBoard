@@ -13,12 +13,12 @@ const PullRequests: React.FC = () => {
 
   const [owner, setOwner] = useState<string>(urlOwner || "");
   const [repo, setRepo] = useState<string>(urlRepo || "");
-  const [filterStatus, setFilterStatus] = useState<"all" | "open" | "closed">("open");
+  const [filterStatus, setFilterStatus] = useState<"all" | "open" | "closed">("all");
   const [filterAuthor, setFilterAuthor] = useState<string>("");
 
   const { data: token } = useToken();
   const prsUrl = owner && repo ? `${import.meta.env.VITE_API_URL}/api/prs/${owner}/${repo}` : null;
-  const { data: fetchedPrs, isLoading, error } = useFetchAllPRsOfRepo<{ data: FormattedPullRequest[] }>(prsUrl, token);
+  const { data: fetchedPrs, isLoading, isFetching, error } = useFetchAllPRsOfRepo<{ data: FormattedPullRequest[] }>(prsUrl, token);
 
   const uniqueAuthors = useMemo(() => {
     if (!fetchedPrs?.data) return [];
@@ -87,7 +87,7 @@ const PullRequests: React.FC = () => {
   const prCountText = `${sortedPrs.length} ${pageTitle}`;
 
   const handleClearFilters = () => {
-    setFilterStatus("open");
+    setFilterStatus("all");
     setFilterAuthor("");
   };
 
@@ -213,6 +213,9 @@ const PullRequests: React.FC = () => {
             <span className="text-lg font-semibold text-gray-800">
               {prCountText}
             </span>
+            {isFetching && !isLoading && (
+              <span className="text-sm text-gray-500 animate-pulse">(Updating...)</span>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <label htmlFor="sort-by" className="text-sm font-medium text-gray-700">Sort by:</label>
@@ -229,7 +232,7 @@ const PullRequests: React.FC = () => {
             </select>
           </div>
         </div>
-        {isLoading ? (
+        {isLoading && !fetchedPrs ? (
           <div className="flex justify-center items-center py-10">
             <LottieLoader />
           </div>

@@ -28,6 +28,7 @@ const Navbar = () => {
         ? `/pull-requests/${owner}/${repo}`
         : "/pull-requests",
     },
+    { name: "Dependencies", path: "/dependency-time-machine" },
   ], [owner, repo]);
 
   // Hide/show navbar on scroll
@@ -163,6 +164,18 @@ const Navbar = () => {
                     >
                       <GitPR width={20} fill="#9A89C0" />
                       Pull Requests
+                    </Link>
+                    <Link
+                      to="/dependency-time-machine"
+                      className={`flex items-center gap-2 px-4 py-2 text-sm transition-all ${
+                        location.pathname.startsWith("/dependency-time-machine")
+                          ? "bg-gray-100 text-gray-900 font-medium"
+                          : "text-gray-700 hover:bg-gray-50"
+                      }`}
+                      onClick={() => setOpenMenu(false)}
+                    >
+                      <Command width={20} fill="#9A89C0" />
+                      Dependencies
                     </Link>
                     <div className="border-t border-gray-100"></div>
                     <button
