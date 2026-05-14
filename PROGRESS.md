@@ -14,10 +14,17 @@
 - [x] Revitalize Open PRs Page (Data-driven Dashboard)
 - [x] Revitalize Closed PRs Page
 - [x] Revitalize Dashboard Overview (Analytics & Charts)
-- [ ] Audit & Refine Auth/AuthLayout Flow
+- [x] Audit & Refine Auth/AuthLayout Flow (Researched & Documented)
 - [ ] Implement State-Aware Navbar Evolution
 
 ## [Phase 3] Feature Expansion & Refinement
+- [x] Install Prisma & Configure PostgreSQL connection.
+- [x] Define User Schema and run migration.
+- [x] Implement `GithubStrategy` within `AuthModule`.
+- [x] Create `AuthController` to handle OAuth callbacks and JWT generation.
+- [x] Create Auth Validation Suite.
+- [ ] Protect backend routes using NestJS `JwtAuthGuard`.
+
 - [ ] Connect Real Hestia Unified Backend (Replacing Mocks)
 - [ ] Implement advanced filtering and search capabilities
 - [ ] Add performance monitoring and "Zero-Latency" optimizations
@@ -27,3 +34,4 @@
 - [ ] Full suite integration testing
 - [ ] Production-ready build and deployment to Render/Vercel
 - [ ] Final documentation update
+
