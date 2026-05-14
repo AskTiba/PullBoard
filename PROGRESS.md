@@ -23,7 +23,7 @@
 - [x] Implement `GithubStrategy` within `AuthModule`.
 - [x] Create `AuthController` to handle OAuth callbacks and JWT generation.
 - [x] Create Auth Validation Suite.
-- [ ] Protect backend routes using NestJS `JwtAuthGuard`.
+- [x] Protect backend routes using NestJS `JwtAuthGuard`.
 
 - [ ] Connect Real Hestia Unified Backend (Replacing Mocks)
 - [ ] Implement advanced filtering and search capabilities

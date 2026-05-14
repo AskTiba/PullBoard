@@ -4,6 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { GithubStrategy } from './github.strategy';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { GithubStrategy } from './github.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [GithubStrategy],
+  providers: [GithubStrategy, JwtStrategy],
 })
 export class AuthModule {}
