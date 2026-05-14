@@ -7,8 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "dev": "concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
-    "dev:server": "npm run dev --workspace=server",
+    "dev": "concurrently \"npm run start:dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "dev:server": "npm run start:dev --workspace=server",
     "dev:client": "npm run dev --workspace=client"
   },
   "keywords": [],

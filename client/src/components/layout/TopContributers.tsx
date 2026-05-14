@@ -1,64 +1,63 @@
-
 interface Contributor {
   name: string;
-  prsCreated: number;
-  prsMerged: number;
-  successRate: string;
+  count: number;
+  avatar: string;
 }
 
-export default function TopContributers() {
-  const contributors: Contributor[] = [
-    { name: "John Doe", prsCreated: 15, prsMerged: 12, successRate: "80%" },
-    { name: "Jane Smith", prsCreated: 10, prsMerged: 9, successRate: "90%" },
-    { name: "Peter Jones", prsCreated: 20, prsMerged: 10, successRate: "50%" },
-    { name: "Alice Brown", prsCreated: 8, prsMerged: 8, successRate: "100%" },
-  ];
+interface TopContributersProps {
+  contributors?: Contributor[];
+}
 
+export default function TopContributers({ contributors }: TopContributersProps) {
   return (
-    <main className="max-w-screen-xl mx-auto py-8 px-4">
-      <h3 className="text-3xl font-bold text-gray-800 mb-6">Top Contributors</h3>
-      <div className="bg-white p-6 rounded-lg shadow-sm overflow-x-auto"> {/* Responsive table container */}
-        {contributors.length > 0 ? (
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Contributor
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  PRs Created
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  PRs Merged
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Success Rate
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {contributors.map((contributor, index) => (
-                <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {contributor.name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {contributor.prsCreated}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {contributor.prsMerged}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {contributor.successRate}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <div className="text-center py-10 text-gray-500">No data available</div>
-        )}
+    <section className="space-y-8 pb-12">
+      <div className="flex justify-between items-end">
+        <div className="space-y-1">
+          <h3 className="text-3xl font-bold text-hestia-text tracking-tight">
+            Top Contributors
+          </h3>
+          <p className="text-hestia-muted font-medium">Leading the development charge</p>
+        </div>
+        <button className="text-sm font-bold text-hestia-accent hover:underline decoration-2 underline-offset-4">
+          View Full Leaderboard
+        </button>
       </div>
-    </main>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {contributors?.map((contributor, index) => (
+          <div 
+            key={index} 
+            className="group relative bg-white p-8 rounded-[40px] border border-white shadow-ios hover:shadow-ios-lg transition-all duration-300"
+          >
+            <div className="flex flex-col items-center text-center space-y-4">
+              <div className="relative">
+                <div className="w-20 h-20 bg-hestia-bg rounded-[28px] border-2 border-white shadow-ios flex items-center justify-center text-2xl font-black text-hestia-accent group-hover:scale-110 transition-transform duration-500">
+                  {contributor.avatar}
+                </div>
+                <div className="absolute -bottom-2 -right-2 bg-hestia-text text-white w-8 h-8 rounded-full border-4 border-white flex items-center justify-center text-xs font-black">
+                  #{index + 1}
+                </div>
+              </div>
+              
+              <div className="space-y-1">
+                <h4 className="text-xl font-bold text-hestia-text">{contributor.name}</h4>
+                <div className="px-4 py-1.5 bg-hestia-bg rounded-full text-xs font-bold text-hestia-muted uppercase tracking-widest border border-white/50">
+                  {contributor.count} Merged PRs
+                </div>
+              </div>
+
+              <div className="w-full pt-4">
+                <div className="h-1.5 w-full bg-hestia-bg rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-hestia-accent rounded-full transition-all duration-1000 delay-300" 
+                    style={{ width: `${(contributor.count / 50) * 100}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

@@ -1,46 +1,40 @@
+import { Link } from "react-router-dom";
+
 const Hero = () => {
   return (
-    <section className="md:h-[80vh] h-[74vh] relative mb-20 overflow-x-hidden">
-      {/* Content Layer */}
-      <div className="relative z-10 h-full flex flex-col justify-center items-center text-center sm:px-10 px-6">
-        <div className="max-w-7xl">
-          {/* Headline */}
-          <h2 className="md:text-7xl sm:text-6xl text-[38px] text-gray-800 md:max-w-4xl font-semibold">
-            Track Your GitHub Pull Requests
-          </h2>
-
-          {/* Description */}
-          <p className="max-w-2xl mx-auto text-gray-600 md:py-8 py-10 sm:pb-10 pb-12 text-[18px]">
-            Stay on top of your team's development workflow with our
-            comprehensive PR tracking solution. Moniter open pull requests,
-            review closed ones, and keep your development process running
-            smoothly.
-          </p>
-
-          {/* Buttons */}
-          <div className="flex md:flex-row gap-6 flex-col justify-center">
-            <button className="md:p-2 p-4 md:px-4 px-6 rounded-md bg-black text-white cursor-pointer hover:bg-gray-700">
-              View Open PRs
-            </button>
-            <button className="border-[0.5px] border-gray-400 md:p-2 p-4 md:px-4 px-6 rounded-md cursor-pointer hover:bg-gray-200">
-              Browse Closed PRs
-            </button>
-          </div>
-        </div>
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-hestia-bg to-white">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[20%] -left-[10%] w-[50%] h-[50%] opacity-20 blur-[120px] bg-blue-600 rounded-full animate-pulse" />
+        <div className="absolute bottom-[20%] -right-[10%] w-[40%] h-[40%] opacity-15 blur-[100px] bg-purple-500 rounded-full animate-pulse delay-1000" />
       </div>
 
-      {/* Decoration Layer */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/cube.png"
-          alt=""
-          className="lg:block hidden w-1/4 h-1/2 absolute top-10 left-[-120px]"
-        />
-        <img
-          src="/cube.png"
-          alt=""
-          className="lg:block hidden w-1/4 h-1/2 absolute bottom-0 right-[-120px]"
-        />
+      {/* Content Layer */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+        <div className="space-y-10">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/60 border border-white shadow-sm text-[13px] font-black text-blue-700 tracking-widest uppercase">
+            GitHub Management, Evolved
+          </div>
+
+          <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-gray-950 leading-[0.95]">
+            Velocity, <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-500">
+              In Every PR.
+            </span>
+          </h1>
+
+          <p className="max-w-xl mx-auto text-xl text-slate-700 font-medium leading-relaxed">
+            PullBoard is your team's mission control for seamless code review. 
+            Monitor activity, identify bottlenecks, and maintain high-fidelity 
+            development velocity.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
+            <Link to="/open-prs" className="group relative px-10 py-5 bg-gray-950 text-white rounded-3xl font-black text-lg shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all">
+              Launch Dashboard
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );

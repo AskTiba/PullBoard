@@ -1,146 +1,154 @@
-import React, { useState } from "react"; // Import useState
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Export, Filter, GitPR, Refresh, X } from "../components/icons";
-import LottieLoader from "../components/ui/LottieLoader"; // Import LottieLoader
-import LottieEmptyState from "../components/ui/LottieEmptyState"; // Import LottieEmptyState
+import LottieLoader from "../components/ui/LottieLoader";
+import LottieEmptyState from "../components/ui/LottieEmptyState";
+import { fetchClosedPRs, PullRequest } from "../services/api";
 
 const ClosedPRs: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true); // State for loading
-  const [prs, setPrs] = useState([]); // State for PRs data
-
-  // Simulate data fetching
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //     // setPrs([...some data...]); // Uncomment and add data to test empty state
-  //   }, 2000);
-  // }, []);
+  const { data: prs, isLoading, refetch, isFetching } = useQuery<PullRequest[]>({
+    queryKey: ["closed-prs"],
+    queryFn: fetchClosedPRs,
+  });
 
   return (
-    <main className="max-w-screen-xl mx-auto py-8 px-4">
-      {/* Page Header */}
-      <section className="flex flex-col md:flex-row justify-between items-center mb-8">
-        <div className="text-center md:text-left mb-4 md:mb-0">
-          <h2 className="text-3xl font-bold text-gray-800">
-            Closed Pull Requests
-          </h2>
-          <p className="text-gray-600">
-            Track and manage all closed pull requests
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 sm:flex-row">
-          <button className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-200">
-            <Refresh width={20} fill="#fff" />
-            <span>Refresh</span>
-          </button>
-          <button className="bg-amber-500 hover:bg-amber-600 text-black font-semibold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-200">
-            <Export width={20} fill="#000" />
-            <span>Export JSON</span>
-          </button>
-        </div>
-      </section>
-
-      {/* Filter Section */}
-      <section className="bg-white p-6 rounded-lg shadow-sm mb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
-          {" "}
-          {/* Adjusted grid for inputs + buttons */}
-          <div className="flex flex-col">
-            <label
-              htmlFor="author"
-              className="text-sm font-medium text-gray-700 mb-1"
-            >
-              Filter by Author
-            </label>
-            <input
-              type="text"
-              id="author"
-              className="border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Username"
-            />
+    <main className="min-h-screen bg-hestia-bg pt-8 pb-24 px-6">
+      <div className="max-w-7xl mx-auto space-y-10">
+        
+        {/* Page Header */}
+        <section className="flex flex-col md:flex-row justify-between items-end gap-6">
+          <div className="space-y-2">
+            <h2 className="text-4xl font-extrabold text-hestia-text tracking-tight">
+              Closed Pull Requests
+            </h2>
+            <p className="text-hestia-muted font-medium text-lg">
+              Review and audit your historical development activity.
+            </p>
           </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="status"
-              className="text-sm font-medium text-gray-700 mb-1"
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => refetch()}
+              disabled={isFetching}
+              className="p-3 bg-white rounded-2xl shadow-ios border border-white hover:bg-gray-50 transition-all active:scale-95 disabled:opacity-50"
             >
-              Filter by Status
-            </label>
-            <select
-              id="status"
-              className="border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
-              defaultValue="closed" // Set default to closed
-            >
-              <option value="">All</option>
-              <option value="open">Open</option>
-              <option value="closed">Closed</option>
-              <option value="merged">Merged</option>
-            </select>
-          </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="repository"
-              className="text-sm font-medium text-gray-700 mb-1"
-            >
-              Filter by Repository
-            </label>
-            <input
-              type="text"
-              id="repository"
-              className="border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Repository Name"
-            />
-          </div>
-          {/* Buttons now part of the same grid */}
-          <div className="flex sm:flex-row gap-4 lg:col-span-1 justify-end">
-            <button className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-200">
-              <Filter fill="#fff" width={20} />
-              <span>Apply</span>
+              <Refresh width={20} className={isFetching ? "animate-spin" : ""} />
             </button>
-            <button className="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg flex items-center gap-2 transition-colors duration-200">
-              <X fill="#fff" width={20} />
-              <span>Clear</span>
+            <button className="flex items-center gap-2 px-6 py-3 bg-hestia-text text-white rounded-2xl font-bold shadow-ios-lg hover:scale-[1.02] transition-all active:scale-95">
+              <Export width={18} fill="#fff" />
+              <span>Export Archive</span>
             </button>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* PRs Summary and List */}
-      <section className="bg-white p-6 rounded-lg shadow-sm">
-        <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <GitPR fill="#28a745" width={20} />
-            <span className="text-lg font-semibold text-gray-800">
-              0 Closed Pull Requests
+        {/* Action/Filter Bar */}
+        <section className="p-4 bg-white/60 rounded-[32px] border border-white shadow-ios-lg backdrop-blur-md">
+          <div className="flex flex-col lg:flex-row gap-4 items-center">
+            <div className="w-full lg:flex-1 grid grid-cols-1 md:grid-cols-3 gap-3">
+              <input
+                type="text"
+                placeholder="Search history..."
+                className="px-5 py-3 bg-white rounded-2xl border border-white shadow-ios focus:outline-none focus:ring-2 focus:ring-hestia-accent/20 placeholder:text-hestia-muted/50 font-medium"
+              />
+              <select className="px-5 py-3 bg-white rounded-2xl border border-white shadow-ios focus:outline-none focus:ring-2 focus:ring-hestia-accent/20 font-medium text-hestia-muted">
+                <option>Merged PRs</option>
+                <option>Abandoned PRs</option>
+                <option>All History</option>
+              </select>
+              <select className="px-5 py-3 bg-white rounded-2xl border border-white shadow-ios focus:outline-none focus:ring-2 focus:ring-hestia-accent/20 font-medium text-hestia-muted">
+                <option>Sorted by Date</option>
+                <option>Sorted by Impact</option>
+              </select>
+            </div>
+            <div className="flex items-center gap-2">
+              <button className="p-3 bg-hestia-accent text-white rounded-2xl shadow-ios hover:bg-blue-600 transition-all active:scale-95">
+                <Filter fill="#fff" width={20} />
+              </button>
+              <button className="p-3 bg-white text-hestia-muted rounded-2xl shadow-ios border border-white hover:text-hestia-text transition-all active:scale-95">
+                <X width={20} />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* PRs List Area */}
+        <section className="space-y-4">
+          <div className="flex items-center gap-3 px-2">
+            <div className="p-2 bg-purple-100 rounded-xl">
+              <GitPR fill="#9333ea" width={18} />
+            </div>
+            <span className="text-xl font-bold text-hestia-text">
+              {prs?.length || 0} Archived Requests
             </span>
           </div>
-          <div className="flex items-center gap-2">
-            <label htmlFor="sort-by" className="text-sm font-medium text-gray-700">Sort by:</label>
-            <select
-              id="sort-by"
-              className="border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="newest">Newest</option>
-              <option value="oldest">Oldest</option>
-              <option value="comments">Most Comments</option>
-              <option value="updated">Last Updated</option>
-            </select>
-          </div>
-        </div>
-        {isLoading ? (
-          <div className="flex justify-center items-center py-10">
-            <LottieLoader />
-          </div>
-        ) : prs.length === 0 ? (
-          <div className="flex justify-center items-center py-10">
-            <LottieEmptyState message="No closed pull requests found." />
-          </div>
-        ) : (
-          <div className="p-20 text-center text-gray-500">
-            {/* Render your PRs list here */}
-            List of Closed Pull Requests
-          </div>
-        )}
-      </section>
+
+          {isLoading ? (
+            <div className="flex flex-col justify-center items-center py-32 space-y-4">
+              <LottieLoader />
+              <p className="text-hestia-muted font-bold animate-pulse">Retrieving Archives...</p>
+            </div>
+          ) : prs && prs.length > 0 ? (
+            <div className="grid gap-4">
+              {prs.map((pr) => (
+                <div 
+                  key={pr.id} 
+                  className="group p-6 bg-white/80 rounded-[32px] border border-white shadow-ios hover:shadow-ios-lg hover:bg-white transition-all duration-300 cursor-pointer"
+                >
+                  <div className="flex flex-col md:flex-row justify-between gap-6 opacity-80 group-hover:opacity-100 transition-opacity">
+                    <div className="space-y-4">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs font-bold text-purple-600 uppercase tracking-widest">{pr.repository}</span>
+                          <span className="text-hestia-muted/30">•</span>
+                          <span className="text-xs font-semibold text-hestia-muted">#{pr.id}</span>
+                          <span className="px-2 py-0.5 bg-purple-100 text-[10px] font-bold text-purple-700 rounded-md uppercase tracking-tighter">Merged</span>
+                        </div>
+                        <h3 className="text-xl font-bold text-hestia-text group-hover:text-purple-600 transition-colors line-through decoration-hestia-muted/30">
+                          {pr.title}
+                        </h3>
+                      </div>
+                      
+                      <div className="flex flex-wrap gap-2">
+                        {pr.labels.map(label => (
+                          <span key={label} className="px-3 py-1 bg-hestia-bg rounded-full text-[11px] font-bold text-hestia-muted border border-white/50">
+                            {label}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-row md:flex-col justify-between items-end gap-2">
+                      <div className="flex items-center gap-4 text-right">
+                        <div className="flex flex-col items-end">
+                          <span className="text-sm font-bold text-hestia-text">{pr.author}</span>
+                          <span className="text-xs font-medium text-hestia-muted">Merged on May 12</span>
+                        </div>
+                        <div className="w-10 h-10 bg-hestia-bg rounded-2xl border border-white shadow-ios flex items-center justify-center font-bold text-purple-600">
+                          {pr.author[0]}
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-4 text-hestia-muted">
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-hestia-muted/30" />
+                          <span className="text-xs font-bold uppercase tracking-tighter">{pr.commentsCount} Comments</span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-hestia-muted/30" />
+                          <span className="text-xs font-bold uppercase tracking-tighter">{pr.reviewsCount} Reviews</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="py-24 bg-white/40 rounded-[40px] border border-dashed border-white/60">
+              <LottieEmptyState message="The archives are empty. No closed requests to show." />
+            </div>
+          )}
+        </section>
+      </div>
     </main>
   );
 };
