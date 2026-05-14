@@ -2,6 +2,10 @@
 
 | Date | Error Description | Root Cause | Detailed Solution |
 | :--- | :--- | :--- | :--- |
+| 2026-05-14 | Review module migration | Legacy Express structure | Ported ReviewService and ReviewController to GithubModule |
+| 2026-05-14 | Repo module migration | Legacy Express structure | Ported RepoService and RepoController to GithubModule |
+| 2026-05-14 | Backend integration | Missing security verification | Implemented e2e tests for Github routes using Supertest |
+| 2026-05-14 | Backend integration test fail | Octokit initialization in test | Mocked GithubService in e2e suite |
 | 2026-05-14 | AuthGuard implementation | Route exposure | Implemented JwtStrategy and JwtAuthGuard for route protection |
 | 2026-05-14 | Auth e2e test crash | Missing @nestjs/config in test suite | Installed `@nestjs/config` and imported it in `auth.controller.spec.ts` |
 | 2026-05-14 | GithubStrategy crash | Missing dependency injection for ConfigService | Refactored strategy to inject ConfigService |

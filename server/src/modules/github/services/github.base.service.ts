@@ -4,7 +4,7 @@ import { Octokit } from 'octokit';
 @Injectable()
 export class GithubService {
   private readonly octokit: Octokit;
-  private readonly logger = new Logger(GithubService.name);
+  protected readonly logger = new Logger(GithubService.name);
 
   constructor() {
     this.octokit = new Octokit({

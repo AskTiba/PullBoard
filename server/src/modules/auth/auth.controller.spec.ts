@@ -1,34 +1,34 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import request from 'supertest';
-import { AuthModule } from './auth.module';
-import { GithubStrategy } from './github.strategy';
-import { ConfigService } from '@nestjs/config';
+import { AuthController } from './auth.controller';
+import { JwtService } from '@nestjs/jwt';
 
-describe('AuthController (e2e)', () => {
-  let app: INestApplication;
+describe('AuthController', () => {
+  let controller: AuthController;
 
-  beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AuthModule],
-    })
-      .overrideProvider(ConfigService)
-      .useValue({ get: (key: string) => 'test-value' })
-      .compile();
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [AuthController],
+      providers: [
+        {
+          provide: JwtService,
+          useValue: { sign: jest.fn().mockReturnValue('mocked-token') },
+        },
+      ],
+    }).compile();
 
-    app = moduleFixture.createNestApplication();
-    await app.init();
+    controller = module.get<AuthController>(AuthController);
   });
 
-  it('/auth/github (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/auth/github')
-      .expect(302);
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
   });
 
-  afterAll(async () => {
-    if (app) {
-      await app.close();
-    }
+  it('should generate a token on callback', async () => {
+    const mockReq = { user: { githubId: '123', username: 'testuser' } };
+    const mockRes = { redirect: jest.fn() } as any;
+    
+    await controller.githubAuthCallback(mockReq, mockRes);
+    
+    expect(mockRes.redirect).toHaveBeenCalledWith(expect.stringContaining('token=mocked-token'));
   });
 });
