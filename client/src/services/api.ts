@@ -33,8 +33,12 @@ export interface DashboardStats {
   additions: number;
   deletions: number;
   volumePending: boolean;
+  volumeUnsupported: boolean;
   activityData: { name: string; prs: number }[];
-  topContributors: { name: string; count: number; avatar: string }[];
+  churnHistory: { timestamp: number; additions: number; deletions: number }[];
+  commitHistory: { week: number; total: number; days: number[] }[];
+  projectTimeline?: number;
+  totalCommits?: number;
 }
 
 export interface AnalyticsData {
@@ -57,6 +61,7 @@ export interface TeamMember {
   responsiveness: string;
   status: 'online' | 'busy' | 'offline';
   auditVersion?: string;
+  weeklyHistory?: { w: number; a: number; d: number; c: number }[];
 }
 
 const getHeaders = () => {
@@ -95,6 +100,16 @@ export const fetchDashboardStats = async (repo: string): Promise<DashboardStats>
   
   const data = await response.json();
   
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const latestActivity = data.commitHistory?.[data.commitHistory.length - 1];
+  const dynamicActivityData = latestActivity ? latestActivity.days.map((prs: number, i: number) => ({
+    name: days[i],
+    prs: prs
+  })) : [
+    { name: "Mon", prs: 0 }, { name: "Tue", prs: 0 }, { name: "Wed", prs: 0 },
+    { name: "Thu", prs: 0 }, { name: "Fri", prs: 0 }, { name: "Sat", prs: 0 }, { name: "Sun", prs: 0 },
+  ];
+  
   return {
     totalPRs: data.totalPRs || 0,
     mergedPRs: data.mergedPRs || 0,
@@ -103,11 +118,12 @@ export const fetchDashboardStats = async (repo: string): Promise<DashboardStats>
     additions: data.additions || 0,
     deletions: data.deletions || 0,
     volumePending: data.volumePending || false,
-    activityData: [
-      { name: "Mon", prs: 4 }, { name: "Tue", prs: 7 }, { name: "Wed", prs: 5 },
-      { name: "Thu", prs: 9 }, { name: "Fri", prs: 12 }, { name: "Sat", prs: 3 }, { name: "Sun", prs: 2 },
-    ],
-    topContributors: []
+    volumeUnsupported: data.volumeUnsupported || false,
+    churnHistory: data.churnHistory || [],
+    commitHistory: data.commitHistory || [],
+    activityData: dynamicActivityData,
+    projectTimeline: data.projectTimeline || 0,
+    totalCommits: data.totalCommits || 0
   };
 };
 

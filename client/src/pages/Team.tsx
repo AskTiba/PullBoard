@@ -8,7 +8,7 @@ import { MemberCardSkeleton } from "../components/ui/Skeleton";
 
 const Team: React.FC = () => {
   const { currentRepo, isLoadingRepo } = useRepository();
-  
+
   const { data: stats, isLoading: isLoadingStats } = useQuery({
     queryKey: ["dashboard-stats", currentRepo],
     queryFn: () => fetchDashboardStats(currentRepo),
@@ -26,8 +26,8 @@ const Team: React.FC = () => {
   const isLoading = isLoadingTeam || isLoadingRepo;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pb-12 px-6 animate-in fade-in duration-500 pt-8 no-horizontal">
-      
+    <div className="max-w-7xl mx-auto space-y-8 pb-12 px-6 animate-in fade-in duration-500 pt-8 no-horizontal">      
+
       {/* Blueprint Header */}
       <section className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-3">
@@ -65,12 +65,13 @@ const Team: React.FC = () => {
             data && data.length > 0 ? (
             data.map((member, i) => {
                 const isTopThree = i < 3;
-                const tierGlow = i === 0 ? "shadow-[0_0_15px_rgba(251,191,36,0.3)] border-amber-400 text-amber-400" : 
-                                 i === 1 ? "shadow-[0_0_15px_rgba(148,163,184,0.3)] border-slate-300 text-slate-300" : 
-                                           "shadow-[0_0_15px_rgba(180,83,9,0.3)] border-amber-700 text-amber-700";
+                const tierGlow = i === 0 ? "shadow-[0_0_15px_rgba(251,191,36,0.3)] border-amber-400 text-amber-400" :
+
+                                 i === 1 ? "shadow-[0_0_15px_rgba(148,163,184,0.3)] border-slate-300 text-slate-300" :
+                                           "shadow-[0_0_15px_rgba(180,83,9,0.3)] border-amber-700 text-amber-700";   
 
                 return (
-                <motion.div 
+                <motion.div
                     key={member.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -87,7 +88,7 @@ const Team: React.FC = () => {
                             `}>
                                 {member.avatar}
                             </div>
-                            
+
                             {/* NEW: Tactical Glow Rank Badge for Top 3 */}
                             {isTopThree ? (
                                 <div className={`absolute -top-3 -right-3 w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-black border-2 bg-slate-900 shadow-xl z-20 ${tierGlow}`}>
@@ -157,7 +158,7 @@ const Team: React.FC = () => {
                                 <span className="text-xs font-black text-slate-950 leading-none">{member.responsiveness || "N/A"}</span>
                             </div>
                             <div className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border
-                                ${(member as any).style === 'Heavyweight' ? 'bg-amber-100 text-amber-800 border-amber-200' : 
+                                ${(member as any).style === 'Heavyweight' ? 'bg-amber-100 text-amber-800 border-amber-200' :
                                 (member as any).style === 'Rapid Fire' ? 'bg-blue-100 text-blue-800 border-blue-200' : 'bg-slate-100 text-slate-700 border-slate-200'}
                             `}>
                                 {(member as any).style || 'Velocity'}
