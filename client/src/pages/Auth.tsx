@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { PBLogo } from "../components/brand";
 import GitHub from "../components/icons/github";
 import { motion } from "framer-motion";
+import { API_BASE_URL } from "../services/api";
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -98,7 +99,7 @@ export default function Auth() {
             </div>
 
             <button 
-              onClick={() => window.location.href = 'http://localhost:3000/auth/github'}
+              onClick={() => window.location.href = `${API_BASE_URL}/auth/github`}
               className="w-full flex items-center justify-center gap-4 bg-gray-950 text-white py-5 px-8 rounded-2xl font-black text-lg shadow-lg hover:bg-blue-600 active:scale-95 transition-all cursor-pointer"
             >
               <GitHub width={24} height={24} />
