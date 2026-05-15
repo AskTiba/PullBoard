@@ -22,3 +22,8 @@
 - **Symptom**: Server failed to compile after adapter implementation.
 - **Root Cause**: Missing `@types/ws` and strict Pool type discrepancies in the Neon adapter.
 - **Resolution**: Installed type definitions and applied authoritative type assertions in `PrismaService`.
+
+### Fault: `MODULE_NOT_FOUND` (CI Pipeline)
+- **Symptom**: CI backend job failed on `node --check server/src/server.ts`.
+- **Root Cause**: The CI workflow referenced a non-existent `server.ts` file; the correct entry point is `main.ts`.
+- **Resolution**: Updated `.github/workflows/ci.yml` to check `server/src/main.ts`.
