@@ -64,7 +64,10 @@ const Team: React.FC = () => {
         ) : (
             data && data.length > 0 ? (
             data.map((member, i) => {
-                const isTopOne = i === 0;
+                const isTopThree = i < 3;
+                const tierColor = i === 0 ? "text-amber-400" : i === 1 ? "text-slate-300" : "text-amber-700";
+                const tierLabel = i === 0 ? "Gold" : i === 1 ? "Silver" : "Bronze";
+
                 return (
                 <motion.div 
                     key={member.id}
@@ -72,36 +75,40 @@ const Team: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.04 }}
                     className={`card-ios card-ios-hover overflow-hidden flex flex-col sm:flex-row relative
-                    ${isTopOne ? 'border-blue-500/30 ring-1 ring-blue-500/10 shadow-xl' : 'bg-white'}
+                    ${isTopThree ? 'border-blue-500/30 ring-1 ring-blue-500/10 shadow-xl' : 'bg-white'}
                     `}
                 >
-                    {/* LEFT: Identity & High-Contrast Intelligence */}
-                    <div className={`sm:w-[35%] p-6 flex flex-col items-center justify-center text-center border-b sm:border-b-0 sm:border-r space-y-4
-                        ${isTopOne ? 'bg-slate-950 border-white/10' : 'bg-slate-50 border-slate-200'}
-                    `}>
+                    {/* LEFT: Identity & High-Contrast Intelligence (Now Universal Black Patch) */}
+                    <div className="sm:w-[35%] p-6 flex flex-col items-center justify-center text-center border-b sm:border-b-0 sm:border-r space-y-4 bg-slate-950 border-white/10">
                         <div className="relative">
                             <div className={`w-16 h-16 bg-white border-2 rounded-2xl flex items-center justify-center text-2xl font-bold text-slate-950 shadow-2xl transition-transform duration-500 group-hover:scale-105
-                                ${isTopOne ? 'border-blue-400' : 'border-slate-200'}
+                                ${isTopThree ? 'border-blue-400' : 'border-slate-200'}
                             `}>
                                 {member.avatar}
                             </div>
-                            <div className={`absolute -top-2 -right-2 w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black border-2 shadow-xl
-                                ${isTopOne ? 'bg-blue-600 border-white text-white' : 'bg-white border-slate-300 text-slate-500'}
-                            `}>
-                                #{i + 1}
-                            </div>
+                            
+                            {/* NEW: Tier Badge for Top 3 */}
+                            {isTopThree ? (
+                                <div className={`absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black border-2 bg-slate-900 border-white shadow-xl ${tierColor}`}>
+                                    {tierLabel[0]}
+                                </div>
+                            ) : (
+                                <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black border-2 bg-slate-800 border-white/20 text-slate-400 shadow-xl">
+                                    #{i + 1}
+                                </div>
+                            )}
                         </div>
 
                         <div className="space-y-1 w-full min-w-0">
-                            <h3 className={`text-lg font-black tracking-tight truncate px-1 ${isTopOne ? 'text-white' : 'text-slate-950'}`}>{member.name}</h3>
-                            <p className={`text-[10px] font-black uppercase tracking-widest ${isTopOne ? 'text-blue-300' : 'text-slate-500'}`}>
+                            <h3 className="text-lg font-black tracking-tight truncate px-1 text-white">{member.name}</h3>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-blue-300">
                                 {member.role || "Operator"}
                             </p>
                         </div>
 
                         <div className="pt-1">
-                            <p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${isTopOne ? 'text-slate-400' : 'text-slate-500'}`}>Mission Impact</p>
-                            <span className={`text-3xl font-black tracking-tighter ${isTopOne ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'text-slate-950'}`}>
+                            <p className="text-[10px] font-black uppercase tracking-widest mb-1 text-slate-400">Mission Impact</p>
+                            <span className="text-3xl font-black tracking-tighter text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
                                 {(member as any).impactScore || 0}
                             </span>
                         </div>

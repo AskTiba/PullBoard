@@ -2,8 +2,8 @@
 @import "tailwindcss";
 
 @theme {
-  /* PullBoard Premium Palette */
-  --color-pb-bg: #F8FAFC;
+  /* PullBoard Premium Palette - High Contrast */
+  --color-pb-bg: #F1F5F9; 
   --color-pb-card: #ffffff;
   --color-pb-text: #0f172a;
   --color-pb-muted: #64748b;
@@ -13,8 +13,8 @@
   --font-serif: "DM Serif Display", serif;
   --font-sans: "Outfit", sans-serif;
 
-  /* Material Shadows */
-  --shadow-premium: 0 30px 60px -12px rgba(0, 0, 0, 0.08);
+  /* Material Shadows - Aggressive Tactical Separation */
+  --shadow-premium: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 10px 20px -5px rgba(0, 0, 0, 0.08);
   --shadow-tactile: 0 10px 15px -3px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 1);
   --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.1);
   
@@ -32,17 +32,15 @@
 
 /* 
    🛡️ GLOBAL PREMIUM SCROLLBAR SYSTEM 
-   Surgical, subtle, and rounded for an executive-tier console feel.
 */
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(15, 23, 42, 0.1) transparent;
 }
 
-/* Chrome, Safari, Edge */
 *::-webkit-scrollbar {
   width: 6px;
-  height: 0px; /* Force hide horizontal for UI integrity */
+  height: 0px; 
 }
 
 *::-webkit-scrollbar-track {
@@ -57,28 +55,8 @@
   transition: background 0.3s ease;
 }
 
-*::-webkit-scrollbar-thumb:hover {
-  background: rgba(15, 23, 42, 0.2);
-  background-clip: content-box;
-}
-
-/* Specialized Sidebar Scrollbar (White Glass) */
-aside::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-aside:hover::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-/* Force Hide Horizontal Scrollbar Globally */
-.no-horizontal {
-    overflow-x: hidden !important;
-}
-
 /* 
    💎 PREMIUM SHIMMER SYSTEM
-   Zero-noise, high-fidelity loading state.
 */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
@@ -88,30 +66,32 @@ aside:hover::-webkit-scrollbar-thumb {
 .shimmer {
   background: linear-gradient(
     90deg, 
-    rgba(241, 245, 249, 0.6) 25%, 
-    rgba(248, 250, 252, 0.9) 50%, 
-    rgba(241, 245, 249, 0.6) 75%
+    rgba(226, 232, 240, 0.4) 25%, 
+    rgba(241, 245, 249, 0.8) 50%, 
+    rgba(226, 232, 240, 0.4) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 2s infinite linear;
 }
 
+/* 
+   🛠️ AUTHORITATIVE COMPONENT SYSTEM
+   Consolidated for maximum contrast and visual integrity.
+*/
 .card-ios {
-  @apply bg-white border border-slate-200/50 rounded-[32px];
+  @apply bg-white border border-slate-300/60 rounded-[32px];
   box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.02), 
-    0 10px 15px -3px rgba(0, 0, 0, 0.03),
+    0 4px 12px -2px rgba(0, 0, 0, 0.03), 
+    0 20px 25px -5px rgba(0, 0, 0, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.card-ios-hover {
-  @apply hover:border-blue-500/20 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-500;
+.card-ios:hover {
+  @apply border-blue-500/30 shadow-2xl shadow-blue-500/10 -translate-y-1;
 }
 
-/* Elite Typography Utilities */
-.text-serif {
-  font-family: var(--font-serif);
-}
+.text-serif { font-family: var(--font-serif); }
 
 .text-editorial {
   font-family: var(--font-serif);
@@ -119,7 +99,6 @@ aside:hover::-webkit-scrollbar-thumb {
   letter-spacing: -0.02em;
 }
 
-/* Elite Materials */
 .glass-tactile {
   background: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(40px);
@@ -127,33 +106,11 @@ aside:hover::-webkit-scrollbar-thumb {
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-.glass-pill {
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 1);
-}
-
-.card-ios {
-  @apply bg-white border border-white rounded-[32px] shadow-sm;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-.shadow-ios {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-}
-
-.shadow-ios-lg {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08);
-}
-
 .grid-pattern {
   background-size: 40px 40px;
   background-image: 
     linear-gradient(to right, rgba(15, 23, 42, 0.02) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(15, 23, 42, 0.02) 1px, transparent 1px);
-}
-
-.glow-aura {
-  filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.15));
 }
 
 /* Global Interactive */
