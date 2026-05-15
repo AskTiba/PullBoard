@@ -7,19 +7,26 @@ import { Strategy } from 'passport-github2';
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
   constructor(configService: ConfigService) {
     super({
-      clientID: configService.get<string>('GITHUB_CLIENT_ID') || 'MISSING_ID',
-      clientSecret: configService.get<string>('GITHUB_CLIENT_SECRET') || 'MISSING_SECRET',
-      callbackURL: 'http://localhost:3000/auth/github/callback',
+      clientID: configService.getOrThrow<string>('GITHUB_CLIENT_ID'),
+      clientSecret: configService.getOrThrow<string>('GITHUB_CLIENT_SECRET'),
+      callbackURL: configService.getOrThrow<string>('GITHUB_CALLBACK_URL'),
       scope: ['user:email'],
     });
   }
 
-  async validate(accessToken: string, refreshToken: string, profile: any, done: Function) {
+  async validate(
+    accessToken: string,
+    _refreshToken: string,
+    profile: any,
+    done: Function,
+  ) {
     const user = {
       githubId: profile.id,
       username: profile.username,
-      email: profile.emails?.[0]?.value,
-      avatarUrl: profile.photos?.[0]?.value,
+      displayName: profile.displayName || profile.username,
+      email: profile.emails?.[0]?.value ?? null,
+      avatarUrl: profile.photos?.[0]?.value ?? null,
+      accessToken,
     };
     return done(null, user);
   }

@@ -4,7 +4,17 @@
 This document outlines the transition from Firebase Authentication to a secure, native GitHub OAuth implementation using **Passport.js** and **Prisma/PostgreSQL**.
 
 ## 1. Goal
-Implement a stateless, high-performance identity provider that persists user sessions via JWTs and relational user profiles in our PostgreSQL database.
+Implement a stateless, high-performance identity provider that persists user sessions via JWTs and relational user profiles in our PostgreSQL database, while enabling global intelligence for public repositories.
+
+## 6. GitHub OAuth Registration Process
+1. Navigate to **GitHub Settings > Developer settings > OAuth Apps**.
+2. Click **New OAuth App**.
+3. **Application name:** PullBoard
+4. **Homepage URL:** `http://localhost:5173`
+5. **Authorization callback URL:** `http://localhost:3000/auth/github/callback`
+6. Click **Register application**.
+7. Copy **Client ID** and **Client Secret** into your `server/.env` file.
+8. Restart your development server to apply the changes.
 
 ## 2. Technical Stack
 - **OAuth Provider:** GitHub OAuth2 (via `passport-github2`)

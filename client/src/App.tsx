@@ -8,6 +8,7 @@ import Auth from "./pages/Auth";
 import AuthSuccess from "./pages/AuthSuccess";
 import MainLayout from "./pages/MainLayout";
 import AuthLayout from "./pages/AuthLayout";
+import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 function App() {
   return (
@@ -18,9 +19,11 @@ function App() {
       </Route>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/open-prs" element={<OpenPRs />} />
-        <Route path="/closed-prs" element={<ClosedPRs />} />
-        <Route path="/dashboard" element={<DashBoard />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/open-prs" element={<OpenPRs />} />
+          <Route path="/closed-prs" element={<ClosedPRs />} />
+          <Route path="/dashboard" element={<DashBoard />} />
+        </Route>
       </Route>
     </Routes>
   );

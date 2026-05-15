@@ -1,7 +1,9 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { PrService } from '../services/pr.service';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 
 @Controller('prs')
+@UseGuards(JwtAuthGuard)
 export class PrController {
   constructor(private readonly prService: PrService) {}
 

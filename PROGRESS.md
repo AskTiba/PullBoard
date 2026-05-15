@@ -17,7 +17,8 @@
 - [x] Audit & Refine Auth/AuthLayout Flow (Researched & Documented)
 - [x] Implement GitHub OAuth redirect logic in Auth.tsx
 - [x] Implement AuthSuccess callback handler for JWT persistence
-- [ ] Implement State-Aware Navbar Evolution
+- [x] Implement State-Aware Navbar Evolution
+
 
 ## [Phase 3] Feature Expansion & Refinement
 - [x] Install Prisma & Configure PostgreSQL connection.
@@ -29,11 +30,17 @@
 - [x] Protect backend routes using NestJS `JwtAuthGuard`.
 - [x] Port RepoService and RepoController to GithubModule.
 - [x] Port ReviewService and ReviewController to GithubModule.
+- [x] **Auth Revamp: Fix GitHub OAuth end-to-end flow (Phase A — stateless JWT)**
+- [x] **Auth Revamp: Clean up legacy Express/Firebase dead code**
+- [x] **Auth Revamp: Secure credentials (moved from .env.example to .env)**
+- [x] **Auth Revamp: Implement backend/frontend route protection (ProtectedRoute & JwtAuthGuard)**
+- [ ] Implement Global Repository Intelligence (Public PR Search).
+
+- [ ] Connect Real Hestia Unified Backend (Replacing Mocks)
+- [ ] Auth Phase B: Add Prisma user persistence when DB is provisioned
 
 
 ## [Phase 4] Verification & Deployment
 - [x] Full suite integration testing (Auth verified)
 - [ ] Production-ready build and deployment to Render/Vercel
 - [ ] Final documentation update
-
-

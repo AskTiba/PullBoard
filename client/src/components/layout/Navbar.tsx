@@ -1,17 +1,34 @@
+import { useEffect, useState } from "react";
 import { PBIcon, PBLogo } from "../brand";
 import DateDisplay from "../ui/DateDisplay";
 import HamburgerComponent from "./Hamburger";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Check for token on initial mount and route change
+    setIsAuthenticated(!!localStorage.getItem("auth_token"));
+  }, [location]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth_token");
+    setIsAuthenticated(false);
+    navigate("/");
+  };
 
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Open PRs", path: "/open-prs" },
     { name: "Closed PRs", path: "/closed-prs" },
-    { name: "Dashboard", path: "/dashboard" },
   ];
+
+  if (isAuthenticated) {
+    navLinks.push({ name: "Dashboard", path: "/dashboard" });
+  }
 
   return (
     <nav className="sticky top-0 z-50 glass-effect px-6 py-2">
@@ -38,8 +55,8 @@ const Navbar = () => {
                   className={`
                     px-4 py-2 rounded-full text-[15px] font-medium transition-all duration-200
                     ${isActive 
-                      ? "text-hestia-accent bg-hestia-accent/10" 
-                      : "text-hestia-muted hover:text-hestia-text hover:bg-white/50"
+                      ? "text-blue-700 bg-blue-50" 
+                      : "text-slate-600 hover:text-gray-950 hover:bg-gray-100"
                     }
                   `}
                 >
@@ -50,16 +67,26 @@ const Navbar = () => {
           })}
         </div>
 
-        {/* Info & Profile */}
+        {/* Auth Section */}
         <div className="hidden md:flex items-center gap-6">
-          <DateDisplay format="MMM Do, YYYY" className="text-[13px] font-medium text-hestia-muted/70 uppercase tracking-wider" />
+          <DateDisplay format="MMM Do, YYYY" className="text-[13px] font-bold text-slate-500 uppercase tracking-wider" />
           
-          <Link 
-            to="/auth" 
-            className="p-1 rounded-full border border-transparent hover:border-hestia-accent/20 hover:bg-white/50 transition-all duration-300"
-          >
-            <PBIcon width={32} height={32} />
-          </Link>
+          {isAuthenticated ? (
+            <button 
+              onClick={handleLogout}
+              className="px-6 py-2.5 bg-gray-950 text-white rounded-full text-sm font-bold shadow-sm hover:bg-gray-800 transition-all"
+            >
+              Sign Out
+            </button>
+          ) : (
+            <Link 
+              to="/auth" 
+              className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-full text-sm font-bold shadow-sm hover:bg-blue-700 transition-all"
+            >
+              <PBIcon width={20} height={20} />
+              <span>Connect</span>
+            </Link>
+          )}
         </div>
       </div>
     </nav>

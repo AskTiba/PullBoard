@@ -1,7 +1,17 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { PBLogo } from "../components/brand";
 import GitHub from "../components/icons/github";
 
 export default function Auth() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("auth_token")) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate]);
+
   return (
     <main className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-hestia-bg">
       {/* Visual Side */}
