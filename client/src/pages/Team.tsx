@@ -26,7 +26,7 @@ const Team: React.FC = () => {
   const isLoading = isLoadingTeam || isLoadingRepo;
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pb-12 px-6 animate-in fade-in duration-500 pt-2 no-horizontal">
+    <div className="max-w-7xl mx-auto space-y-8 pb-12 px-6 animate-in fade-in duration-500 pt-8 no-horizontal">
       
       {/* Blueprint Header */}
       <section className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
@@ -65,8 +65,9 @@ const Team: React.FC = () => {
             data && data.length > 0 ? (
             data.map((member, i) => {
                 const isTopThree = i < 3;
-                const tierColor = i === 0 ? "text-amber-400" : i === 1 ? "text-slate-300" : "text-amber-700";
-                const tierLabel = i === 0 ? "Gold" : i === 1 ? "Silver" : "Bronze";
+                const tierGlow = i === 0 ? "shadow-[0_0_15px_rgba(251,191,36,0.3)] border-amber-400 text-amber-400" : 
+                                 i === 1 ? "shadow-[0_0_15px_rgba(148,163,184,0.3)] border-slate-300 text-slate-300" : 
+                                           "shadow-[0_0_15px_rgba(180,83,9,0.3)] border-amber-700 text-amber-700";
 
                 return (
                 <motion.div 
@@ -87,10 +88,10 @@ const Team: React.FC = () => {
                                 {member.avatar}
                             </div>
                             
-                            {/* NEW: Tier Badge for Top 3 */}
+                            {/* NEW: Tactical Glow Rank Badge for Top 3 */}
                             {isTopThree ? (
-                                <div className={`absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black border-2 bg-slate-900 border-white shadow-xl ${tierColor}`}>
-                                    {tierLabel[0]}
+                                <div className={`absolute -top-3 -right-3 w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-black border-2 bg-slate-900 shadow-xl z-20 ${tierGlow}`}>
+                                    #{String(i + 1).padStart(2, '0')}
                                 </div>
                             ) : (
                                 <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-black border-2 bg-slate-800 border-white/20 text-slate-400 shadow-xl">

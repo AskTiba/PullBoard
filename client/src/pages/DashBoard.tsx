@@ -75,7 +75,7 @@ export default function DashBoard() {
   const isLoading = isLoadingStats || isLoadingRepo;
 
   return (
-    <main className="min-h-screen bg-pb-bg pb-12 px-6 animate-in fade-in duration-500 pt-2 no-horizontal">
+    <main className="min-h-screen bg-pb-bg pb-12 px-6 animate-in fade-in duration-500 pt-8 no-horizontal">
       <div className="max-w-7xl mx-auto space-y-8 no-horizontal">
         
         {/* Uniform Header Section - Always visible */}

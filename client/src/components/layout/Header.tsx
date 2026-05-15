@@ -15,7 +15,7 @@ export default function Header() {
   };
 
   return (
-    <header className="h-[64px] border-b border-slate-200/60 flex items-center justify-between px-8 sticky top-0 bg-white/80 backdrop-blur-3xl z-40 transition-all duration-500">
+    <header className="h-[80px] border-b border-slate-200/60 flex items-end pb-4 px-8 sticky top-0 bg-white/80 backdrop-blur-3xl z-40 transition-all duration-500 pt-4">
       <div className="flex items-center justify-between w-full">
         {/* Compressed & Defined Tactical Search */}
         <form onSubmit={handleSubmit} className="relative group w-full max-w-sm">

@@ -24,7 +24,7 @@ const ClosedPRs: React.FC = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pb-24 px-6 animate-in fade-in duration-500 pt-2">
+    <div className="max-w-7xl mx-auto space-y-8 pb-24 px-6 animate-in fade-in duration-500 pt-8">
       {/* /prs Blueprint Header */}
       <section className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div className="space-y-3">

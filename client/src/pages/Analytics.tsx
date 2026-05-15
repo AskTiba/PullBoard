@@ -26,7 +26,7 @@ const Analytics: React.FC = () => {
   const COLORS = ["#2563eb", "#10b981", "#8b5cf6", "#f59e0b"];
 
   return (
-    <div className="max-w-7xl mx-auto space-y-12 pb-24 px-6">
+    <div className="max-w-7xl mx-auto space-y-12 pb-24 px-6 pt-8">
       {/* Header */}
       <section className="space-y-2">
         <div className="flex items-center gap-3">
