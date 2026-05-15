@@ -44,8 +44,8 @@ const Team: React.FC = () => {
                 Quantifying organizational impact through cross-functional signal analysis.
             </p>
         </div>
-        <div className="bg-white px-6 py-3 rounded-2xl border border-slate-200/60 shadow-sm">
-            <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1">Total Contributors</span>
+        <div className="bg-white px-8 py-4 rounded-[24px] border border-slate-200/50 shadow-premium">
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Total Contributors</span>
             <span className="text-2xl font-black text-slate-950 leading-none">
                 {isLoadingStats ? "..." : (stats?.contributors || 0)} Operators
             </span>
@@ -53,7 +53,7 @@ const Team: React.FC = () => {
       </section>
 
       {/* Surgical Tactical Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {isLoading ? (
             <>
                 <MemberCardSkeleton />
@@ -71,8 +71,8 @@ const Team: React.FC = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.04 }}
-                    className={`card-ios overflow-hidden flex flex-col sm:flex-row hover:border-blue-500/40 transition-all duration-300 relative
-                    ${isTopOne ? 'border-blue-500/30 ring-1 ring-blue-500/10 shadow-xl' : 'bg-white border-slate-200 shadow-sm'}
+                    className={`card-ios card-ios-hover overflow-hidden flex flex-col sm:flex-row relative
+                    ${isTopOne ? 'border-blue-500/30 ring-1 ring-blue-500/10 shadow-xl' : 'bg-white'}
                     `}
                 >
                     {/* LEFT: Identity & High-Contrast Intelligence */}
