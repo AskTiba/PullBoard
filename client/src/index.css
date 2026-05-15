@@ -30,6 +30,52 @@
   background-color: var(--color-hestia-bg);
 }
 
+/* 
+   🛡️ GLOBAL PREMIUM SCROLLBAR SYSTEM 
+   Surgical, subtle, and rounded for an executive-tier console feel.
+*/
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(15, 23, 42, 0.1) transparent;
+}
+
+/* Chrome, Safari, Edge */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 0px; /* Force hide horizontal for UI integrity */
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.08);
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background 0.3s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.2);
+  background-clip: content-box;
+}
+
+/* Specialized Sidebar Scrollbar (White Glass) */
+aside::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+aside:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Force Hide Horizontal Scrollbar Globally */
+.no-horizontal {
+    overflow-x: hidden !important;
+}
+
 /* Elite Typography Utilities */
 .text-serif {
   font-family: var(--font-serif);

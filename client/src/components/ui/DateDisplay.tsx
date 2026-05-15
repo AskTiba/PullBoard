@@ -1,53 +1,35 @@
 import React from 'react';
 
 interface DateDisplayProps {
-  format?: string; // e.g., "YYYY", "MM", "DD", "Do", "DayName", "YYYY-MM-DD", "DD/MM/YYYY", "Month Do, YYYY", "DayName, Month Do, YYYY"
-  className?: string; // For styling
+  format?: string; 
+  className?: string; 
 }
 
-const getOrdinalSuffix = (day: number): string => {
-  if (day > 3 && day < 21) return 'th'; // Handles 11th, 12th, 13th
-  switch (day % 10) {
-    case 1: return 'st';
-    case 2: return 'nd';
-    case 3: return 'rd';
-    default: return 'th';
-  }
-};
-
-const getDayName = (dayIndex: number): string => {
-  const dayNames = [
-    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-  ];
-  return dayNames[dayIndex];
-};
-
-const DateDisplay: React.FC<DateDisplayProps> = ({ format = "YYYY-MM-DD", className }) => {
+const DateDisplay: React.FC<DateDisplayProps> = ({ format = "TECH", className }) => {
   const currentDate = new Date();
+  
+  const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  
+  const dayName = days[currentDate.getDay()];
+  const monthName = months[currentDate.getMonth()];
+  const dayNum = currentDate.getDate().toString().padStart(2, '0');
   const year = currentDate.getFullYear();
-  const monthNum = currentDate.getMonth() + 1; // getMonth() is 0-indexed
-  const day = currentDate.getDate();
 
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-  const monthName = monthNames[currentDate.getMonth()];
-  const dayName = getDayName(currentDate.getDay());
-
-  let displayedDate = format;
-
-  // Replace placeholders
-  displayedDate = displayedDate.replace(/YYYY/g, year.toString());
-  displayedDate = displayedDate.replace(/MM/g, monthNum.toString().padStart(2, '0')); // Pad with 0 for single digits
-  displayedDate = displayedDate.replace(/DD/g, day.toString().padStart(2, '0'));     // Pad with 0 for single digits
-  displayedDate = displayedDate.replace(/Do/g, day.toString() + getOrdinalSuffix(day)); // Day with ordinal suffix
-  displayedDate = displayedDate.replace(/Month/g, monthName);
-  displayedDate = displayedDate.replace(/DayName/g, dayName); // New: Day of the week name
+  // TECH Format: FRI · 15 MAY
+  if (format === "TECH") {
+    return (
+      <div className={`inline-flex items-center gap-2 px-3 py-1 bg-slate-900/5 rounded-full border border-slate-900/5 ${className}`}>
+        <span className="text-[10px] font-black tracking-[0.2em] text-blue-600">{dayName}</span>
+        <span className="text-[10px] font-black opacity-20">•</span>
+        <span className="text-[10px] font-black tracking-[0.2em] text-slate-900">{dayNum} {monthName}</span>
+      </div>
+    );
+  }
 
   return (
     <time dateTime={currentDate.toISOString()} className={className}>
-      {displayedDate}
+      {`${dayName} ${dayNum} ${monthName} ${year}`}
     </time>
   );
 };

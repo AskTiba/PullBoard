@@ -1,17 +1,31 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+  output          = "../node_modules/@prisma/client"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
+  id              String             @id @default(uuid())
+  githubId        String             @unique
+  username        String             @unique
+  email           String?
+  avatarUrl       String?
+  accessToken     String?            // 🛡️ AUTHORITATIVE MISSION TOKEN
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  pinnedRepos     PinnedRepository[]
+}
+
+model PinnedRepository {
   id        String   @id @default(uuid())
-  githubId  String   @unique
-  username  String   @unique
-  email     String?
-  avatarUrl String?
+  fullName  String   // e.g., "facebook/react"
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+
+  @@unique([userId, fullName])
 }

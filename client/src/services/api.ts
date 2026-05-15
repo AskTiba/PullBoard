@@ -1,9 +1,16 @@
 /**
  * Hestia Unified API Service
- * 
- * Centralized service layer for all external data interactions.
- * Built for performance and strict type safety.
  */
+
+const API_BASE_URL = "http://localhost:3000";
+
+export interface User {
+  id: string;
+  githubId: string;
+  username: string;
+  email?: string;
+  avatarUrl?: string;
+}
 
 export interface PullRequest {
   id: number;
@@ -18,113 +25,115 @@ export interface PullRequest {
   labels: string[];
 }
 
-// Mock delay to simulate network latency
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-export const fetchOpenPRs = async (): Promise<PullRequest[]> => {
-  await sleep(1000); // Simulate network
-  
-  // Return mock data for initial UI/UX testing
-  return [
-    {
-      id: 1,
-      title: "feat(auth): implement biometric login for mobile",
-      author: "AskTiba",
-      repository: "PullBoard/Hestia",
-      status: 'open',
-      createdAt: "2026-05-14T10:00:00Z",
-      updatedAt: "2026-05-14T12:00:00Z",
-      commentsCount: 5,
-      reviewsCount: 2,
-      labels: ["feature", "high-priority", "auth"]
-    },
-    {
-      id: 2,
-      title: "refactor(ui): update design tokens to Hestia v2",
-      author: "Mohamed-O",
-      repository: "PullBoard/client",
-      status: 'open',
-      createdAt: "2026-05-13T15:30:00Z",
-      updatedAt: "2026-05-14T09:00:00Z",
-      commentsCount: 3,
-      reviewsCount: 1,
-      labels: ["ui/ux", "styling"]
-    },
-    {
-      id: 3,
-      title: "fix(api): resolve race condition in sales transaction",
-      author: "Yusuf-M",
-      repository: "ShopMaster/server",
-      status: 'open',
-      createdAt: "2026-05-14T08:00:00Z",
-      updatedAt: "2026-05-14T11:45:00Z",
-      commentsCount: 8,
-      reviewsCount: 3,
-      labels: ["bug", "critical"]
-    }
-  ];
-};
-
-export const fetchClosedPRs = async (): Promise<PullRequest[]> => {
-  await sleep(800);
-  return [
-    {
-      id: 101,
-      title: "docs: update API documentation for v1 release",
-      author: "bantoklara",
-      repository: "PullBoard/docs",
-      status: 'merged',
-      createdAt: "2026-05-10T09:00:00Z",
-      updatedAt: "2026-05-11T14:00:00Z",
-      commentsCount: 2,
-      reviewsCount: 2,
-      labels: ["documentation"]
-    },
-    {
-      id: 102,
-      title: "feat: add support for dark mode theme",
-      author: "henokkhm",
-      repository: "PullBoard/client",
-      status: 'merged',
-      createdAt: "2026-05-08T11:30:00Z",
-      updatedAt: "2026-05-09T10:00:00Z",
-      commentsCount: 12,
-      reviewsCount: 4,
-      labels: ["feature", "ui/ux"]
-    }
-  ];
-};
-
 export interface DashboardStats {
   totalPRs: number;
   mergedPRs: number;
   avgMergeTime: string;
   contributors: number;
+  additions: number;
+  deletions: number;
+  volumePending: boolean;
   activityData: { name: string; prs: number }[];
   topContributors: { name: string; count: number; avatar: string }[];
 }
 
-export const fetchDashboardStats = async (): Promise<DashboardStats> => {
-  await sleep(1200);
+export interface AnalyticsData {
+  velocityTrend: { date: string; value: number }[];
+  repositoryHealth: { name: string; score: number; status: 'healthy' | 'warning' | 'critical' }[];
+  reviewEfficiency: { label: string; hours: number }[];
+}
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  style: string;
+  impactScore: number;
+  avatar: string;
+  prsMerged: number;
+  reviewCount: number;
+  additions: number;
+  deletions: number;
+  responsiveness: string;
+  status: 'online' | 'busy' | 'offline';
+  auditVersion?: string;
+}
+
+const getHeaders = () => {
+  const token = localStorage.getItem("auth_token");
   return {
-    totalPRs: 154,
-    mergedPRs: 142,
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`
+  };
+};
+
+export const fetchCurrentUser = async (): Promise<User> => {
+  const response = await fetch(`${API_BASE_URL}/auth/me`, { headers: getHeaders() });
+  if (!response.ok) throw new Error("Failed to resolve identity");
+  return response.json();
+};
+
+export const fetchOpenPRs = async (repo: string): Promise<PullRequest[]> => {
+  const response = await fetch(`${API_BASE_URL}/prs/repo?repo=${repo}&state=open`, { headers: getHeaders() });
+  if (!response.ok) throw new Error("Failed to fetch PRs");
+  return response.json();
+};
+
+export const fetchClosedPRs = async (repo: string): Promise<PullRequest[]> => {
+  const response = await fetch(`${API_BASE_URL}/prs/repo?repo=${repo}&state=closed`, { headers: getHeaders() });
+  if (!response.ok) throw new Error("Failed to fetch history");
+  return response.json();
+};
+
+export const fetchDashboardStats = async (repo: string): Promise<DashboardStats> => {
+  const response = await fetch(`${API_BASE_URL}/repos/stats?repo=${repo}`, { headers: getHeaders() });
+  
+  if (!response.ok) {
+      console.error("Dashboard Stats Fetch Failed:", response.status);
+      throw new Error("Failed to fetch stats");
+  }
+  
+  const data = await response.json();
+  
+  return {
+    totalPRs: data.totalPRs || 0,
+    mergedPRs: data.mergedPRs || 0,
     avgMergeTime: "1.2d",
-    contributors: 8,
+    contributors: data.contributors || 0,
+    additions: data.additions || 0,
+    deletions: data.deletions || 0,
+    volumePending: data.volumePending || false,
     activityData: [
-      { name: "Mon", prs: 4 },
-      { name: "Tue", prs: 7 },
-      { name: "Wed", prs: 5 },
-      { name: "Thu", prs: 9 },
-      { name: "Fri", prs: 12 },
-      { name: "Sat", prs: 3 },
-      { name: "Sun", prs: 2 },
+      { name: "Mon", prs: 4 }, { name: "Tue", prs: 7 }, { name: "Wed", prs: 5 },
+      { name: "Thu", prs: 9 }, { name: "Fri", prs: 12 }, { name: "Sat", prs: 3 }, { name: "Sun", prs: 2 },
     ],
-    topContributors: [
-      { name: "AskTiba", count: 42, avatar: "A" },
-      { name: "Mohamed-O", count: 38, avatar: "M" },
-      { name: "Yusuf-M", count: 31, avatar: "Y" },
-      { name: "Banto-K", count: 25, avatar: "B" },
+    topContributors: []
+  };
+};
+
+export const fetchTeamData = async (repo: string): Promise<TeamMember[]> => {
+  const timestamp = new Date().getTime();
+  const response = await fetch(`${API_BASE_URL}/repos/contributors?repo=${repo}&t=${timestamp}`, { headers: getHeaders() });
+  
+  if (!response.ok) throw new Error("Failed to fetch team data");
+  return response.json();
+};
+
+export const fetchAnalyticsData = async (repo: string): Promise<AnalyticsData> => {
+  await new Promise(resolve => setTimeout(resolve, 800));
+  return {
+    velocityTrend: [
+      { date: "May 08", value: 4.2 }, { date: "May 09", value: 3.8 }, { date: "May 10", value: 4.5 },
+      { date: "May 11", value: 5.2 }, { date: "May 12", value: 4.8 }, { date: "May 13", value: 6.1 }, { date: "May 14", value: 5.5 },
+    ],
+    repositoryHealth: [
+      { name: repo || "System/Main", score: 94, status: 'healthy' },
+      { name: "PullBoard/client", score: 82, status: 'healthy' },
+    ],
+    reviewEfficiency: [
+      { label: "Initial Review", hours: 4.2 },
+      { label: "Revision Time", hours: 12.8 },
+      { label: "Approval Latency", hours: 2.1 },
     ]
   };
 };

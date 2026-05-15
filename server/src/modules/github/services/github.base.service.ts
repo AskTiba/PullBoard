@@ -3,17 +3,33 @@ import { Octokit } from 'octokit';
 
 @Injectable()
 export class GithubService {
-  private readonly octokit: Octokit;
   protected readonly logger = new Logger(GithubService.name);
+  
+  // 🧠 GLOBAL SEARCH CACHE
+  // We cache search results to protect the strictly limited GitHub Search API quota.
+  // TTL: 5 minutes for search results.
+  protected static searchCache = new Map<string, { data: any, timestamp: number }>();
 
-  constructor() {
-    this.octokit = new Octokit({
-      auth: process.env.GITHUB_TOKEN,
+  async getOctokit(token?: string) {
+    // 🛡️ AUTHORITATIVE TOKEN INJECTION
+    // Prioritize user-specific OAuth tokens to upgrade API quota from 10 to 30+ req/min.
+    return new Octokit({
+      auth: token || process.env.GITHUB_TOKEN,
     });
   }
 
-  async getOctokit() {
-    return this.octokit;
+  protected async getCachedSearch(key: string, fetcher: () => Promise<any>) {
+    const cached = GithubService.searchCache.get(key);
+    const now = Date.now();
+    const TTL = 5 * 60 * 1000; // 5 Minutes
+
+    if (cached && (now - cached.timestamp < TTL)) {
+      return cached.data;
+    }
+
+    const data = await fetcher();
+    GithubService.searchCache.set(key, { data, timestamp: now });
+    return data;
   }
 
   protected async sleep(ms: number) {

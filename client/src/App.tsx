@@ -9,6 +9,7 @@ import Auth from "./pages/Auth";
 import AuthSuccess from "./pages/AuthSuccess";
 import MainLayout from "./pages/MainLayout";
 import AuthLayout from "./pages/AuthLayout";
+import ClosedPRs from "./pages/ClosedPRs";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import { RepositoryProvider } from "./context/RepositoryContext";
 
@@ -24,6 +25,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashBoard />} />
+            {/* DUAL-ROUTE SUPPORT: /prs and /board both point to the PR Board */}
+            <Route path="/prs" element={<PullRequests />} />
             <Route path="/board" element={<PullRequests />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/team" element={<Team />} />

@@ -2,15 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-github2';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
-  constructor(configService: ConfigService) {
+  constructor(
+    configService: ConfigService,
+    private authService: AuthService,
+  ) {
     super({
       clientID: configService.getOrThrow<string>('GITHUB_CLIENT_ID'),
       clientSecret: configService.getOrThrow<string>('GITHUB_CLIENT_SECRET'),
       callbackURL: configService.getOrThrow<string>('GITHUB_CALLBACK_URL'),
-      scope: ['user:email'],
+      scope: ['user:email', 'repo'],
     });
   }
 
@@ -18,16 +22,21 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     accessToken: string,
     _refreshToken: string,
     profile: any,
-    done: Function,
   ) {
-    const user = {
+    const rawUser = {
       githubId: profile.id,
       username: profile.username,
-      displayName: profile.displayName || profile.username,
       email: profile.emails?.[0]?.value ?? null,
       avatarUrl: profile.photos?.[0]?.value ?? null,
-      accessToken,
     };
-    return done(null, user);
+
+    // 🛡️ PERSISTENCE HANDSHAKE
+    // Synchronizes the GitHub OAuth data with the internal PostgreSQL DB.
+    const user = await this.authService.validateUser(rawUser);
+
+    return {
+      ...user,
+      accessToken, // Keep the token for API requests
+    };
   }
 }

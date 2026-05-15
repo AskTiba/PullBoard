@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PBLogo } from "../components/brand";
 import GitHub from "../components/icons/github";
+import { motion } from "framer-motion";
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -13,69 +14,104 @@ export default function Auth() {
   }, [navigate]);
 
   return (
-    <main className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-hestia-bg">
+    <main className="h-screen grid grid-cols-1 lg:grid-cols-2 bg-hestia-bg overflow-hidden pt-20">
       {/* Visual Side */}
-      <div className="relative hidden lg:block overflow-hidden">
-        <div className="absolute top-10 left-10 z-20">
-          <PBLogo width={180} />
-        </div>
-        <div className="absolute inset-0 bg-hestia-accent/10 z-10" />
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="relative hidden lg:block overflow-hidden m-4 rounded-[40px]"
+      >
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent z-10" />
         <img 
           src="/pbImg.png" 
           alt="PullBoard Dashboard Preview" 
-          className="w-full h-full object-cover transform scale-105 hover:scale-100 transition-transform duration-1000" 
+          className="w-full h-full object-cover" 
         />
-        {/* Decorative Overlay */}
-        <div className="absolute bottom-10 left-10 right-10 z-20 p-8 bg-white/10 backdrop-blur-md rounded-[32px] border border-white/20">
-          <p className="text-white text-xl font-bold italic">
-            "The most elegant way to manage your engineering velocity."
+        {/* Decorative Overlay (Calibrated for h-screen) */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="absolute bottom-10 left-10 right-10 z-20 p-8 bg-white/10 backdrop-blur-xl rounded-[32px] border border-white/20"
+        >
+          <p className="text-white text-xl font-black italic tracking-tight leading-tight">
+            "The most elegant way to manage <br /> your engineering velocity."
           </p>
-        </div>
-      </div>
+          <div className="mt-4 flex gap-2">
+            <div className="h-1 w-12 bg-blue-500 rounded-full" />
+            <div className="h-1 w-4 bg-white/30 rounded-full" />
+            <div className="h-1 w-4 bg-white/30 rounded-full" />
+          </div>
+        </motion.div>
+      </motion.div>
 
-      {/* Form Side */}
-      <div className="flex flex-col justify-center items-center px-6 lg:px-20 py-12">
-        <div className="w-full max-w-md space-y-12">
+      {/* Form Side (Calibrated for Perfect Fit) */}
+      <div className="flex flex-col justify-center items-center px-6 lg:px-20 py-8 grid-pattern relative overflow-hidden">
+        {/* Vibrant Glow Backdrop */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none" />
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10 w-full max-w-md space-y-10"
+        >
           {/* Mobile Logo */}
-          <div className="lg:hidden flex justify-center">
-            <PBLogo width={160} />
+          <div className="lg:hidden flex justify-center mb-6">
+            <PBLogo width={140} />
           </div>
 
-          {/* Text Content */}
-          <div className="text-center lg:text-left space-y-4">
-            <h2 className="text-4xl lg:text-5xl font-black text-hestia-text tracking-tight leading-tight">
-              Welcome to <br />
-              <span className="text-hestia-accent">Mission Control.</span>
-            </h2>
-            <p className="text-lg text-hestia-muted font-medium">
-              Join thousands of developers tracking their PRs with Hestia precision.
-            </p>
+          {/* Text Content (Refined Scale) */}
+          <div className="text-center lg:text-left space-y-3">
+            <motion.h2 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-serif text-5xl lg:text-6xl text-gray-950 italic"
+            >
+              Intelligence, <br />
+              <span className="text-blue-600 not-italic">Refined for Flow.</span>
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-lg text-slate-500 font-medium leading-relaxed"
+            >
+              Authenticate to join the professional standard in pull request monitoring.
+            </motion.p>
           </div>
 
-          {/* Login Card */}
-          <div className="bg-white p-10 rounded-[40px] shadow-ios-lg border border-white space-y-8">
+          {/* Login Card (Compact Precision) */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.6 }}
+            className="bg-white p-10 rounded-[var(--radius-ios-lg)] shadow-premium border border-white space-y-10"
+          >
             <div className="space-y-2 text-center lg:text-left">
-              <h3 className="text-xl font-bold text-hestia-text">Get Started</h3>
-              <p className="text-sm text-hestia-muted font-medium">
-                Sign in with your GitHub account to continue.
+              <h3 className="text-xl font-bold text-gray-950 tracking-tight">Mission Control</h3>
+              <p className="text-sm text-slate-400 font-medium leading-relaxed">
+                Sync your GitHub environment to start tracking lifecycle metrics.
               </p>
             </div>
 
             <button 
               onClick={() => window.location.href = 'http://localhost:3000/auth/github'}
-              className="w-full flex items-center justify-center gap-4 bg-hestia-text text-white py-4 px-8 rounded-2xl font-bold text-lg shadow-ios-lg hover:bg-gray-800 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="w-full flex items-center justify-center gap-4 bg-gray-950 text-white py-5 px-8 rounded-2xl font-black text-lg shadow-lg hover:bg-blue-600 active:scale-95 transition-all cursor-pointer"
             >
               <GitHub width={24} height={24} />
               <span>Connect GitHub</span>
             </button>
 
-            <div className="pt-4 text-center">
-              <p className="text-xs text-hestia-muted font-medium">
-                By connecting, you agree to our <span className="text-hestia-accent cursor-pointer hover:underline">Terms</span> and <span className="text-hestia-accent cursor-pointer hover:underline">Privacy Policy</span>.
+            <div className="pt-2 text-center">
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] leading-relaxed">
+                Secure OAuth 2.0 Integration
               </p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </main>
   );

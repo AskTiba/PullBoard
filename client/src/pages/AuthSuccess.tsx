@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 /**
  * AuthSuccess Component
@@ -14,24 +15,56 @@ export default function AuthSuccess() {
     const token = searchParams.get('token');
     
     if (token) {
-      // Securely store the token. In a production Supreme Authority system, 
-      // we would use a more secure storage mechanism than localStorage.
+      // Securely store the token
       localStorage.setItem('auth_token', token);
       
-      // Redirect to dashboard on success, ensuring the app state refreshes
-      navigate('/dashboard', { replace: true });
+      // Artificial delay to allow the "Elite" loading animation to play
+      const timer = setTimeout(() => {
+        navigate('/dashboard', { replace: true });
+      }, 2000);
+
+      return () => clearTimeout(timer);
     } else {
-      // Fallback for failed authentication scenarios
       navigate('/auth', { replace: true });
     }
   }, [searchParams, navigate]);
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-hestia-bg">
-      <div className="text-center space-y-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700 mx-auto" />
-        <h2 className="text-xl font-black text-gray-950">Establishing Session...</h2>
-        <p className="text-slate-600 font-medium">Securing your session with Hestia precision.</p>
+    <main className="min-h-screen flex items-center justify-center bg-hestia-bg mesh-gradient">
+      <div className="text-center space-y-8 max-w-md px-6">
+        <motion.div 
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="relative"
+        >
+          <div className="w-24 h-24 border-4 border-blue-100 rounded-full mx-auto" />
+          <motion.div 
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-0 w-24 h-24 border-4 border-t-blue-600 rounded-full mx-auto"
+          />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="space-y-4"
+        >
+          <h2 className="text-3xl text-editorial text-gray-950">Establishing Authority</h2>
+          <p className="text-slate-500 font-medium text-lg">
+            Securing your session with Hestia precision. <br />
+            Preparing your dashboard...
+          </p>
+        </motion.div>
+
+        <motion.div 
+          initial={{ width: 0 }}
+          animate={{ width: "100%" }}
+          transition={{ duration: 1.8, ease: "easeInOut" }}
+          className="h-1 bg-blue-600 rounded-full max-w-[200px] mx-auto"
+        />
       </div>
     </main>
   );
