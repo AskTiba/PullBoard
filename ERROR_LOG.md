@@ -3,6 +3,9 @@
 | Date | Error Description | Root Cause | Detailed Solution |
 | :--- | :--- | :--- | :--- |
 | 2026-05-14 | Auth frontend integration | Missing backend redirect hook | Wired Auth.tsx button to /auth/github |
+| 2026-05-14 | Auth compilation error | Leftover firebase-admin import in AuthService | Purged Firebase-admin code from AuthService |
+| 2026-05-15 | GithubStrategy startup crash | Env variables resolved before super() call | Refactored constructor to inject and use ConfigService directly |
+| 2026-05-14 | Auth frontend callback | Missing token capture | Implemented AuthSuccess page to parse and store JWT |
 | 2026-05-14 | Repo module migration | Legacy Express structure | Ported RepoService and RepoController to GithubModule |
 | 2026-05-14 | Backend integration | Missing security verification | Implemented e2e tests for Github routes using Supertest |
 | 2026-05-14 | Backend integration test fail | Octokit initialization in test | Mocked GithubService in e2e suite |

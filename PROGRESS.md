@@ -16,6 +16,7 @@
 - [x] Revitalize Dashboard Overview (Analytics & Charts)
 - [x] Audit & Refine Auth/AuthLayout Flow (Researched & Documented)
 - [x] Implement GitHub OAuth redirect logic in Auth.tsx
+- [x] Implement AuthSuccess callback handler for JWT persistence
 - [ ] Implement State-Aware Navbar Evolution
 
 ## [Phase 3] Feature Expansion & Refinement

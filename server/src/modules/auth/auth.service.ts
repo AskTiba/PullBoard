@@ -1,17 +1,7 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import * as admin from 'firebase-admin';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class AuthService implements OnModuleInit {
-  private firebaseApp!: admin.app.App;
-
-  onModuleInit() {
-    this.firebaseApp = admin.initializeApp({
-      credential: admin.credential.applicationDefault(),
-    });
-  }
-
-  getFirebaseAdmin() {
-    return this.firebaseApp;
-  }
+export class AuthService {
+  // Firebase dependencies purged. 
+  // Identity is now managed via JWT and relational User profile.
 }

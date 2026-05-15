@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { JwtService } from '@nestjs/jwt';
+import { GithubService } from '../github/services/github.base.service';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -12,6 +13,10 @@ describe('AuthController', () => {
         {
           provide: JwtService,
           useValue: { sign: jest.fn().mockReturnValue('mocked-token') },
+        },
+        {
+          provide: GithubService,
+          useValue: { getOctokit: jest.fn().mockResolvedValue({ request: jest.fn().mockResolvedValue({ data: {} }) }) },
         },
       ],
     }).compile();
