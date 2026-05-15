@@ -32,7 +32,7 @@ const PullRequests: React.FC = () => {
     return (
       <div className="flex flex-col justify-center items-center py-40 space-y-4">
         <LottieLoader />
-        <p className="text-hestia-muted font-bold animate-pulse uppercase tracking-widest text-xs">
+        <p className="text-pb-muted font-bold animate-pulse uppercase tracking-widest text-xs">
           {isLoadingRepo ? "Synchronizing Context..." : "Identifying Mission Bottlenecks..."}
         </p>
       </div>
@@ -58,7 +58,7 @@ const PullRequests: React.FC = () => {
                 {statusFilter === 'open' ? stats?.totalPRs : stats?.mergedPRs} Missions
             </div>
           </h2>
-          <p className="text-hestia-muted font-medium text-lg">
+          <p className="text-pb-muted font-medium text-lg">
             High-fidelity monitoring of development velocity and potential mission risks.
           </p>
         </div>

@@ -65,7 +65,7 @@ export default function MainLayout() {
 
   if (isCommandCenter) {
     return (
-      <div className="flex min-h-screen bg-hestia-bg">
+      <div className="flex min-h-screen bg-pb-bg">
         <ScrollToTop />
         <Sidebar />
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">

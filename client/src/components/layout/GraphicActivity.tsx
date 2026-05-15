@@ -35,10 +35,10 @@ export default function GraphicActivity({ data }: GraphicActivityProps) {
       {/* PR Activity Bar Chart */}
       <section className="lg:col-span-2 bg-white/70 backdrop-blur-[var(--blur-ios)] p-10 rounded-[40px] border border-white/50 shadow-ios">
         <div className="mb-8">
-          <h3 className="text-2xl font-black text-hestia-text tracking-tight">
+          <h3 className="text-2xl font-black text-pb-text tracking-tight">
             Development Velocity
           </h3>
-          <p className="text-hestia-muted font-bold uppercase text-xs tracking-widest mt-1">
+          <p className="text-pb-muted font-bold uppercase text-xs tracking-widest mt-1">
             Weekly PR creation frequency
           </p>
         </div>
@@ -77,10 +77,10 @@ export default function GraphicActivity({ data }: GraphicActivityProps) {
       {/* PR Status Pie Chart */}
       <section className="bg-white/70 backdrop-blur-[var(--blur-ios)] p-10 rounded-[40px] border border-white/50 shadow-ios flex flex-col">
         <div className="mb-8">
-          <h3 className="text-2xl font-black text-hestia-text tracking-tight">
+          <h3 className="text-2xl font-black text-pb-text tracking-tight">
             Status Mix
           </h3>
-          <p className="text-hestia-muted font-bold uppercase text-xs tracking-widest mt-1">
+          <p className="text-pb-muted font-bold uppercase text-xs tracking-widest mt-1">
             Current lifecycle distribution
           </p>
         </div>
@@ -116,12 +116,12 @@ export default function GraphicActivity({ data }: GraphicActivityProps) {
             </PieChart>
           </ResponsiveContainer>
         </div>
-        <div className="grid grid-cols-3 gap-2 pt-6 border-t border-hestia-bg/50">
+        <div className="grid grid-cols-3 gap-2 pt-6 border-t border-pb-bg/50">
           {prStatusData.map((item, index) => (
             <div key={item.name} className="flex flex-col items-center gap-1">
               <div className="w-2.5 h-2.5 rounded-full shadow-sm" style={{ backgroundColor: COLORS[index] }} />
-              <span className="text-[10px] font-black text-hestia-muted uppercase tracking-widest">{item.name}</span>
-              <span className="text-sm font-black text-hestia-text">{item.value}</span>
+              <span className="text-[10px] font-black text-pb-muted uppercase tracking-widest">{item.name}</span>
+              <span className="text-sm font-black text-pb-text">{item.value}</span>
             </div>
           ))}
         </div>

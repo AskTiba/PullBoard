@@ -16,7 +16,7 @@ const Analytics: React.FC = () => {
     return (
       <div className="flex flex-col justify-center items-center py-40 space-y-4">
         <LottieLoader />
-        <p className="text-hestia-muted font-bold animate-pulse">
+        <p className="text-pb-muted font-bold animate-pulse">
             {isLoadingRepo ? "Synchronizing Context..." : "Aggregating Velocity Trends..."}
         </p>
       </div>
@@ -35,10 +35,10 @@ const Analytics: React.FC = () => {
             </span>
             <span className="text-blue-600 font-bold text-sm tracking-tight">{currentRepo}</span>
         </div>
-        <h2 className="text-4xl font-extrabold text-hestia-text tracking-tight">
+        <h2 className="text-4xl font-extrabold text-pb-text tracking-tight">
           Performance Analytics
         </h2>
-        <p className="text-hestia-muted font-medium text-lg">
+        <p className="text-pb-muted font-medium text-lg">
           High-fidelity data visualization of your team's throughput and repository health.
         </p>
       </section>
@@ -47,7 +47,7 @@ const Analytics: React.FC = () => {
         {/* Velocity Trend */}
         <div className="lg:col-span-2 card-ios p-8 space-y-8 h-[450px]">
           <div className="flex justify-between items-center">
-            <h3 className="text-xl font-bold text-hestia-text">Velocity Trend</h3>
+            <h3 className="text-xl font-bold text-pb-text">Velocity Trend</h3>
             <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1 rounded-full uppercase tracking-widest">
                 +12.4% Increase
             </span>
@@ -98,7 +98,7 @@ const Analytics: React.FC = () => {
 
         {/* Review Efficiency */}
         <div className="card-ios p-8 space-y-8">
-            <h3 className="text-xl font-bold text-hestia-text">Review Efficiency</h3>
+            <h3 className="text-xl font-bold text-pb-text">Review Efficiency</h3>
             <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data?.reviewEfficiency} layout="vertical">

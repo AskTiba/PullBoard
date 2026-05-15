@@ -2,13 +2,13 @@
 @import "tailwindcss";
 
 @theme {
-  /* Hestia Elite Palette */
-  --color-hestia-bg: #F8FAFC;
-  --color-hestia-card: #ffffff;
-  --color-hestia-text: #0f172a;
-  --color-hestia-muted: #64748b;
-  --color-hestia-accent: #2563eb;
-  --color-hestia-accent-vibrant: #4f46e5;
+  /* PullBoard Premium Palette */
+  --color-pb-bg: #F8FAFC;
+  --color-pb-card: #ffffff;
+  --color-pb-text: #0f172a;
+  --color-pb-muted: #64748b;
+  --color-pb-accent: #2563eb;
+  --color-pb-accent-vibrant: #4f46e5;
 
   --font-serif: "DM Serif Display", serif;
   --font-sans: "Outfit", sans-serif;
@@ -26,8 +26,8 @@
   font-family: var(--font-sans);
   line-height: 1.6;
   font-weight: 400;
-  color: var(--color-hestia-text);
-  background-color: var(--color-hestia-bg);
+  color: var(--color-pb-text);
+  background-color: var(--color-pb-bg);
 }
 
 /* 

@@ -30,7 +30,7 @@ export default function AuthSuccess() {
   }, [searchParams, navigate]);
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-hestia-bg mesh-gradient">
+    <main className="min-h-screen flex items-center justify-center bg-pb-bg mesh-gradient">
       <div className="text-center space-y-8 max-w-md px-6">
         <motion.div 
           initial={{ scale: 0.8, opacity: 0 }}
@@ -54,7 +54,7 @@ export default function AuthSuccess() {
         >
           <h2 className="text-3xl text-editorial text-gray-950">Establishing Authority</h2>
           <p className="text-slate-500 font-medium text-lg">
-            Securing your session with Hestia precision. <br />
+            Securing your session with PullBoard precision. <br />
             Preparing your dashboard...
           </p>
         </motion.div>

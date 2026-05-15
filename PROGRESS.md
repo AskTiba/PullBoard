@@ -1,8 +1,8 @@
-# PullBoard & Hestia Core: Progress Tracker
+# PullBoard & PullBoard Core: Progress Tracker
 
 ## [Phase 1] Workspace & Directive Alignment
 - [x] Revamp `GEMINI.md` with Master Directive and Safety Protocols
-- [x] Organize Hestia templates into `docs/templates/`
+- [x] Organize PullBoard templates into `docs/templates/`
 - [x] Rebrand `README.md` for PullBoard vision
 - [x] Initialize clean progress and error logs
 
@@ -31,7 +31,7 @@
 - [x] Port RepoService and RepoController to GithubModule.
 - [x] Port ReviewService and ReviewController to GithubModule.
 - [x] Implement Global Repository Intelligence (Public PR Search).
-- [x] Connect Real Hestia Unified Backend (Replacing Mocks)
+- [x] Connect Real PullBoard Unified Backend (Replacing Mocks)
 
 
 ## [Phase 4] Verification & Deployment

@@ -13,12 +13,12 @@ export default function TopContributers({ contributors }: TopContributersProps) 
     <section className="space-y-8 pb-12">
       <div className="flex justify-between items-end">
         <div className="space-y-1">
-          <h3 className="text-3xl font-bold text-hestia-text tracking-tight">
+          <h3 className="text-3xl font-bold text-pb-text tracking-tight">
             Top Contributors
           </h3>
-          <p className="text-hestia-muted font-medium">Leading the development charge</p>
+          <p className="text-pb-muted font-medium">Leading the development charge</p>
         </div>
-        <button className="text-sm font-bold text-hestia-accent hover:underline decoration-2 underline-offset-4">
+        <button className="text-sm font-bold text-pb-accent hover:underline decoration-2 underline-offset-4">
           View Full Leaderboard
         </button>
       </div>
@@ -31,25 +31,25 @@ export default function TopContributers({ contributors }: TopContributersProps) 
           >
             <div className="flex flex-col items-center text-center space-y-4">
               <div className="relative">
-                <div className="w-20 h-20 bg-hestia-bg rounded-[28px] border-2 border-white shadow-ios flex items-center justify-center text-2xl font-black text-hestia-accent group-hover:scale-110 transition-transform duration-500">
+                <div className="w-20 h-20 bg-pb-bg rounded-[28px] border-2 border-white shadow-ios flex items-center justify-center text-2xl font-black text-pb-accent group-hover:scale-110 transition-transform duration-500">
                   {contributor.avatar}
                 </div>
-                <div className="absolute -bottom-2 -right-2 bg-hestia-text text-white w-8 h-8 rounded-full border-4 border-white flex items-center justify-center text-xs font-black">
+                <div className="absolute -bottom-2 -right-2 bg-pb-text text-white w-8 h-8 rounded-full border-4 border-white flex items-center justify-center text-xs font-black">
                   #{index + 1}
                 </div>
               </div>
               
               <div className="space-y-1">
-                <h4 className="text-xl font-bold text-hestia-text">{contributor.name}</h4>
-                <div className="px-4 py-1.5 bg-hestia-bg rounded-full text-xs font-bold text-hestia-muted uppercase tracking-widest border border-white/50">
+                <h4 className="text-xl font-bold text-pb-text">{contributor.name}</h4>
+                <div className="px-4 py-1.5 bg-pb-bg rounded-full text-xs font-bold text-pb-muted uppercase tracking-widest border border-white/50">
                   {contributor.count} Merged PRs
                 </div>
               </div>
 
               <div className="w-full pt-4">
-                <div className="h-1.5 w-full bg-hestia-bg rounded-full overflow-hidden">
+                <div className="h-1.5 w-full bg-pb-bg rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-hestia-accent rounded-full transition-all duration-1000 delay-300" 
+                    className="h-full bg-pb-accent rounded-full transition-all duration-1000 delay-300" 
                     style={{ width: `${(contributor.count / 50) * 100}%` }}
                   />
                 </div>

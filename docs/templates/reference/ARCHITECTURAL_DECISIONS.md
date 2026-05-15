@@ -1,11 +1,11 @@
-# Hestia: Architectural Decisions & Strategy Log
+# PullBoard: Architectural Decisions & Strategy Log
 
-This document records the strategic discussions, concerns addressed, and the senior-level rationale behind the architecture of the Hestia Unified Backend.
+This document records the strategic discussions, concerns addressed, and the senior-level rationale behind the architecture of the PullBoard Unified Backend.
 
 ## 1. Project Naming & Unified Identity
 - **Concern**: Naming the database "ShopMaster" while it also houses "VibeCheck" and "EliteAid" data.
-- **Decision**: Rename the entire backend ecosystem to **"Hestia"**.
-- **Rationale**: Hestia is a **Modular Monolith**. Using a unified name reflects the shared core (Auth, Database, Infrastructure) while allowing individual apps to exist as modules. This simplifies maintenance and reduces costs to zero.
+- **Decision**: Rename the entire backend ecosystem to **"PullBoard"**.
+- **Rationale**: PullBoard is a **Modular Monolith**. Using a unified name reflects the shared core (Auth, Database, Infrastructure) while allowing individual apps to exist as modules. This simplifies maintenance and reduces costs to zero.
 
 ## 2. Repository Visibility & Professional Showcase
 - **Concern**: How to showcase backend work if the repository is set to PRIVATE for security.
@@ -36,4 +36,4 @@ This document records the strategic discussions, concerns addressed, and the sen
 - **Rationale**: Because the API is **Stateless** (uses tokens, not sessions), it can scale horizontally on Render. Because it is **Modular**, new app ideas can be added as "Lego blocks" without touching existing code.
 
 ---
-**Verdict**: The Hestia Core is engineered for high trust, low cost, and infinite growth.
+**Verdict**: The PullBoard Core is engineered for high trust, low cost, and infinite growth.

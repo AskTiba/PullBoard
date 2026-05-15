@@ -40,7 +40,7 @@ const Team: React.FC = () => {
                 </span>
             </div>
             <h2 className="text-4xl font-extrabold text-slate-950 tracking-tight leading-none">Engineering Intelligence Hub</h2>
-            <p className="text-hestia-muted font-medium text-lg">
+            <p className="text-pb-muted font-medium text-lg">
                 Quantifying organizational impact through cross-functional signal analysis.
             </p>
         </div>

@@ -1,6 +1,6 @@
-# Hestia Core: Technical Stack & Architecture Guide
+# PullBoard Core: Technical Stack & Architecture Guide
 
-This document provides a professional breakdown of the technologies, tools, and engineering techniques used to build the Hestia Unified Backend.
+This document provides a professional breakdown of the technologies, tools, and engineering techniques used to build the PullBoard Unified Backend.
 
 ## 1. Core Framework & Runtime
 - **[Bun](https://bun.sh/)**: Chosen as the JavaScript runtime and package manager.
@@ -29,7 +29,7 @@ This document provides a professional breakdown of the technologies, tools, and 
     - **Why**: Powers the **VibeCheck Crowd Meter**, allowing the server to "push" live updates to users instantly without them having to refresh.
 - **[Haversine Formula](https://en.wikipedia.org/wiki/Haversine_formula)**:
     - **Technique**: Manual implementation of the mathematical formula to calculate the distance between two GPS coordinates.
-    - **Why**: Allows high-performance "Nearby Search" directly in the Hestia engine without paying for expensive Google Maps API calls for every search.
+    - **Why**: Allows high-performance "Nearby Search" directly in the PullBoard engine without paying for expensive Google Maps API calls for every search.
 
 ## 5. Professional Engineering Techniques
 - **Modular Monolith**: Keeping multiple apps in one server but in separate modules.

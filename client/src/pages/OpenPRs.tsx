@@ -26,7 +26,7 @@ const OpenPRs: React.FC = () => {
     return (
       <div className="flex flex-col justify-center items-center py-40 space-y-4">
         <LottieLoader />
-        <p className="text-hestia-muted font-bold animate-pulse">
+        <p className="text-pb-muted font-bold animate-pulse">
             {isLoadingRepo ? "Synchronizing Context..." : "Identifying Mission Bottlenecks..."}
         </p>
       </div>
@@ -44,10 +44,10 @@ const OpenPRs: React.FC = () => {
             </span>
             <span className="text-green-600 font-bold text-sm tracking-tight">{currentRepo}</span>
           </div>
-          <h2 className="text-4xl font-extrabold text-hestia-text tracking-tight">
+          <h2 className="text-4xl font-extrabold text-pb-text tracking-tight">
             PR Intelligence Board
           </h2>
-          <p className="text-hestia-muted font-medium text-lg">
+          <p className="text-pb-muted font-medium text-lg">
             Active monitoring of development velocity and potential mission risks.
           </p>
         </div>

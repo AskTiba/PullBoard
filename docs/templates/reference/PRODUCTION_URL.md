@@ -1,4 +1,4 @@
-# Hestia Production Environment Variables
+# PullBoard Production Environment Variables
 
 To use this backend in your frontend applications (ShopMaster, VibeCheck, EliteAid), use the following configuration:
 

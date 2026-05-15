@@ -4,7 +4,7 @@ export default function HomeSections() {
   const pillars = [
     { 
       title: "Zero-Latency Tracking", 
-      desc: "Stop waiting for syncs. Our Hestia-powered engine fetches your GitHub data in milliseconds.",
+      desc: "Stop waiting for syncs. Our PullBoard-powered engine fetches your GitHub data in milliseconds.",
       icon: "⚡"
     },
     { 

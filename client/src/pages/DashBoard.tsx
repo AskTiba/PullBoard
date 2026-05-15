@@ -75,7 +75,7 @@ export default function DashBoard() {
   const isLoading = isLoadingStats || isLoadingRepo;
 
   return (
-    <main className="min-h-screen bg-hestia-bg pb-12 px-6 animate-in fade-in duration-500 pt-2 no-horizontal">
+    <main className="min-h-screen bg-pb-bg pb-12 px-6 animate-in fade-in duration-500 pt-2 no-horizontal">
       <div className="max-w-7xl mx-auto space-y-8 no-horizontal">
         
         {/* Uniform Header Section - Always visible */}
@@ -89,7 +89,7 @@ export default function DashBoard() {
             </span>
           </div>
           <h2 className="text-4xl font-extrabold text-slate-950 tracking-tight leading-none">Intelligence Dashboard</h2>
-          <p className="text-hestia-muted font-medium text-lg">
+          <p className="text-pb-muted font-medium text-lg">
             High-fidelity monitoring of mission velocity and development throughput.
           </p>
         </section>

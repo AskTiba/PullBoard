@@ -16,7 +16,7 @@ const ClosedPRs: React.FC = () => {
     return (
       <div className="flex flex-col justify-center items-center py-40 space-y-4">
         <LottieLoader />
-        <p className="text-hestia-muted font-bold animate-pulse text-xs uppercase tracking-widest">
+        <p className="text-pb-muted font-bold animate-pulse text-xs uppercase tracking-widest">
             {isLoadingRepo ? "Synchronizing Context..." : "Fetching Historical Intelligence..."}
         </p>
       </div>
@@ -37,7 +37,7 @@ const ClosedPRs: React.FC = () => {
           <h2 className="text-4xl font-extrabold text-slate-950 tracking-tight">
             Merged History
           </h2>
-          <p className="text-hestia-muted font-medium text-lg">
+          <p className="text-pb-muted font-medium text-lg">
             A high-fidelity audit of successfully integrated mission objectives.
           </p>
         </div>

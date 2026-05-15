@@ -15,7 +15,7 @@ export default function Auth() {
   }, [navigate]);
 
   return (
-    <main className="h-screen grid grid-cols-1 lg:grid-cols-2 bg-hestia-bg overflow-hidden pt-20">
+    <main className="h-screen grid grid-cols-1 lg:grid-cols-2 bg-pb-bg overflow-hidden pt-20">
       {/* Visual Side */}
       <motion.div 
         initial={{ opacity: 0, x: -20 }}

@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-hestia-text text-white py-16 px-6">
+    <footer className="bg-pb-text text-white py-16 px-6">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between gap-12">
         {/* Brand */}
         <div className="space-y-6">

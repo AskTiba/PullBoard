@@ -1,10 +1,10 @@
-# 🛸 PullBoard | Hestia Core Ecosystem
+# 🛸 PullBoard
 [![CI Pipeline](https://github.com/AskTiba/PullBoard/actions/workflows/ci.yml/badge.svg)](https://github.com/AskTiba/PullBoard/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Engine: NestJS](https://img.shields.io/badge/Engine-NestJS%2011-red.svg)](https://nestjs.com/)
 [![Aesthetic: iOS--First](https://img.shields.io/badge/Aesthetic-iOS--First-lightgrey.svg)](#-aesthetic-philosophy)
 
-**PullBoard** is a premium, high-fidelity GitHub intelligence dashboard. It is the flagship manifestation of the **Hestia Unified Ecosystem**, engineered to transform raw repository data into actionable, aesthetic intelligence.
+**PullBoard** is a premium, high-fidelity GitHub intelligence dashboard engineered to transform raw repository data into actionable, aesthetic intelligence.
 
 [Explore the Docs](./docs) • [View Demo](https://pullboard.vercel.app) • [Report Bug](https://github.com/AskTiba/PullBoard/issues)
 
@@ -14,7 +14,7 @@
 PullBoard transcends traditional tracking. It is a "vibe-centric" mission control center designed for developers who demand both technical depth and visual excellence.
 
 *   **iOS-First Aesthetic:** Glassmorphism, meaningful micro-interactions, and a premium color palette (#F3F7FA).
-*   **Modular Monolith Architecture:** Powered by **Hestia Core**, a scalable NestJS engine designed for zero-latency data delivery.
+*   **Modular Monolith Architecture:** A scalable NestJS engine designed for zero-latency data delivery.
 *   **Unified Identity:** Seamless GitHub OAuth integration with persistent mission-state management.
 
 ---
@@ -31,7 +31,7 @@ PullBoard transcends traditional tracking. It is a "vibe-centric" mission contro
 | **CI/CD** | GitHub Actions + Render | Automated syntax validation and production-ready deployments. |
 
 ### System Design
-PullBoard operates as a **Modular Monolith**. This allows the Hestia Backend to serve multiple project identities (PullBoard, ShopMaster, VibeCheck) through a single, high-performance gateway while maintaining strict domain isolation.
+PullBoard operates as a **Modular Monolith**. This allows the backend to serve high-performance repository intelligence through a single, secure gateway while maintaining strict domain isolation and data integrity.
 
 ---
 
@@ -56,14 +56,14 @@ npm install
 # Initialize Database Schema
 npm run prisma:generate -w server
 
-# Launch the Ecosystem
+# Launch the Application
 npm run dev
 ```
 
 ---
 
 ## 🎨 Aesthetic Philosophy
-PullBoard adheres to the **Supreme Authority Standard**:
+PullBoard adheres to a **Premium Engineering Standard**:
 *   **Contrast:** WCAG AA-compliant legibility.
 *   **Motion:** Lottie-powered loaders and smooth transitions for reduced perceived latency.
 *   **Consistency:** A strict adherence to our `#ffffff` and `#F3F7FA` base tokens, ensuring a "clean-room" environment for data analysis.
@@ -74,15 +74,15 @@ PullBoard adheres to the **Supreme Authority Standard**:
 Track our architectural evolution in [PROGRESS.md](./PROGRESS.md).
 *   [x] Phase 1: Workspace Alignment & CI/CD
 *   [x] Phase 2: iOS-First UI/UX Revamp
-*   [x] Phase 3: Hestia Core Integration (OAuth & Database)
+*   [x] Phase 3: Core Integration (OAuth & Database)
 *   [ ] Phase 4: Real-time Repository Analytics (Active)
 
 ---
 
 ## 🤝 Contribution & Governance
-We maintain high engineering standards. All contributions must pass the **Supreme Standard Audit**:
+We maintain high engineering standards. All contributions must pass the **Professional Standard Audit**:
 1.  Strict TypeScript (no `any`).
 2.  Conventional Commits (`feat:`, `fix:`, `chore:`).
 3.  Automated tests for all backend logic.
 
-*PullBoard is crafted with precision by the Hestia Core Team.*
+*PullBoard is crafted with precision for the modern developer.*
