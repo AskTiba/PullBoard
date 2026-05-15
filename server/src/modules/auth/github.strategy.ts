@@ -32,11 +32,12 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
 
     // 🛡️ PERSISTENCE HANDSHAKE
     // Synchronizes the GitHub OAuth data with the internal PostgreSQL DB.
-    const user = await this.authService.validateUser(rawUser);
+    // We pass the accessToken to ensure the user's high-quota token is persisted.
+    const user = await this.authService.validateUser(rawUser, accessToken);
 
     return {
       ...user,
-      accessToken, // Keep the token for API requests
+      accessToken, // Keep the token for immediate session context
     };
   }
 }

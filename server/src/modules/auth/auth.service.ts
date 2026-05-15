@@ -13,22 +13,25 @@ export class AuthService {
    * 🛡️ UNIVERSAL IDENTITY HANDSHAKE
    * Synchronizes GitHub OAuth profile with the internal PostgreSQL identity.
    */
-  async validateUser(profile: any) {
+  async validateUser(profile: any, accessToken: string) {
     const { githubId, username, email, avatarUrl } = profile;
 
     // Upsert logic: Update returning users or Create new ones in one atomic operation.
+    // We strictly persist the latest GitHub accessToken to ensure high-quota API access.
     const user = await this.prisma.user.upsert({
       where: { githubId },
       update: {
         username,
         email,
         avatarUrl,
+        accessToken, // 🛡️ ROTATING MISSION TOKEN
       },
       create: {
         githubId,
         username,
         email,
         avatarUrl,
+        accessToken,
       },
     });
 

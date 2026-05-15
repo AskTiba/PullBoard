@@ -27,9 +27,19 @@ export class GithubService {
       return cached.data;
     }
 
-    const data = await fetcher();
-    GithubService.searchCache.set(key, { data, timestamp: now });
-    return data;
+    try {
+      const response = await fetcher();
+      const data = response.data;
+      GithubService.searchCache.set(key, { data, timestamp: now });
+      return data;
+    } catch (error: any) {
+      if (this.isRateLimitError(error)) {
+        this.logger.warn(`⚠️ GitHub Search Quota Exhausted for key: ${key}. Returning fallback data.`);
+        // Return a null-pattern object matching GitHub's search response
+        return { total_count: 0, items: [], incomplete_results: true };
+      }
+      throw error;
+    }
   }
 
   protected async sleep(ms: number) {

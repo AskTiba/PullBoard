@@ -38,7 +38,7 @@ export class RepoService extends GithubService {
     try {
       this.logger.log(`⚡ [FAST-PATH] Auditing ${owner}/${repo}...`);
       
-      const [repoData, totalPrRes, contributorRes, mergedRes] = await Promise.all([
+      const [repoDataRes, totalPrRes, contributorRes, mergedRes] = await Promise.allSettled([
         octokit.request('GET /repos/{owner}/{repo}', { owner, repo }),
         octokit.request('GET /repos/{owner}/{repo}/pulls', { owner, repo, state: 'all', per_page: 1 }),
         octokit.request('GET /repos/{owner}/{repo}/contributors', { owner, repo, per_page: 1 }),
@@ -47,8 +47,15 @@ export class RepoService extends GithubService {
         ),
       ]);
 
-      const totalPRs = this.extractTotalFromLink(totalPrRes.headers.link) || (totalPrRes.data.length > 0 ? 1 : 0);
-      const contributorCount = this.extractTotalFromLink(contributorRes.headers.link) || (contributorRes.data.length > 0 ? 1 : 0);
+      // 🛡️ AUTHORITATIVE DATA EXTRACTION
+      // We extract data from settled promises, providing defaults if specific calls failed.
+      const repoData = repoDataRes.status === 'fulfilled' ? repoDataRes.value.data : { stargazers_count: 0, forks_count: 0, open_issues_count: 0 };
+      const prData = totalPrRes.status === 'fulfilled' ? totalPrRes.value : { headers: {}, data: [] };
+      const contData = contributorRes.status === 'fulfilled' ? contributorRes.value : { headers: {}, data: [] };
+      const mergeData = mergedRes.status === 'fulfilled' ? mergedRes.value : { total_count: 0 };
+
+      const totalPRs = this.extractTotalFromLink(prData.headers.link) || (prData.data.length > 0 ? 1 : 0);
+      const contributorCount = this.extractTotalFromLink(contData.headers.link) || (contData.data.length > 0 ? 1 : 0);
       
       let volume = { additions: 0, deletions: 0, pending: false, unsupported: false };
       try {
@@ -75,11 +82,11 @@ export class RepoService extends GithubService {
       }
 
       const result = {
-        stars: repoData.data.stargazers_count,
-        forks: repoData.data.forks_count,
-        openIssues: repoData.data.open_issues_count,
+        stars: repoData.stargazers_count,
+        forks: repoData.forks_count,
+        openIssues: repoData.open_issues_count,
         totalPRs: totalPRs,
-        mergedPRs: mergedRes.total_count || mergedRes.data?.total_count || 0,
+        mergedPRs: mergeData.total_count || mergeData.data?.total_count || 0,
         additions: volume.additions,
         deletions: volume.deletions,
         volumePending: volume.pending,
