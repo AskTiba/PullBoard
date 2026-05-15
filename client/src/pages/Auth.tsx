@@ -51,7 +51,10 @@ export default function Auth() {
               </p>
             </div>
 
-            <button className="w-full flex items-center justify-center gap-4 bg-hestia-text text-white py-4 px-8 rounded-2xl font-bold text-lg shadow-ios-lg hover:bg-gray-800 hover:scale-[1.02] active:scale-[0.98] transition-all">
+            <button 
+              onClick={() => window.location.href = 'http://localhost:3000/auth/github'}
+              className="w-full flex items-center justify-center gap-4 bg-hestia-text text-white py-4 px-8 rounded-2xl font-bold text-lg shadow-ios-lg hover:bg-gray-800 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            >
               <GitHub width={24} height={24} />
               <span>Connect GitHub</span>
             </button>

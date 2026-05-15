@@ -2,7 +2,7 @@
 
 | Date | Error Description | Root Cause | Detailed Solution |
 | :--- | :--- | :--- | :--- |
-| 2026-05-14 | Review module migration | Legacy Express structure | Ported ReviewService and ReviewController to GithubModule |
+| 2026-05-14 | Auth frontend integration | Missing backend redirect hook | Wired Auth.tsx button to /auth/github |
 | 2026-05-14 | Repo module migration | Legacy Express structure | Ported RepoService and RepoController to GithubModule |
 | 2026-05-14 | Backend integration | Missing security verification | Implemented e2e tests for Github routes using Supertest |
 | 2026-05-14 | Backend integration test fail | Octokit initialization in test | Mocked GithubService in e2e suite |
@@ -20,3 +20,4 @@
 | 2026-05-14 | Database provider selection | Architecture choice | Selected Neon.tech for Postgres persistence |
 | 2026-05-14 | Prisma init failure (casing) | Casing conflict in route files | Renamed `Prs.route.ts` to `prs.route.ts` |
 | 2026-05-14 | Prisma schema init | Success | Initialized schema and User model |
+
